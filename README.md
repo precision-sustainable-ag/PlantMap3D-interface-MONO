@@ -1,1 +1,0 @@
-# oakd-camera-app

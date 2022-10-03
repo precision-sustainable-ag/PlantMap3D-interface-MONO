@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">OakD camera app</string>
+    <string name="app_name">Test Kotlin Tabbed App</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 </resources>

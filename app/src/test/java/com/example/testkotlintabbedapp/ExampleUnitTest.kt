@@ -1,4 +1,4 @@
-package com.example.oakdcameraapp
+package com.example.testkotlintabbedapp
 
 import org.junit.Test
 
