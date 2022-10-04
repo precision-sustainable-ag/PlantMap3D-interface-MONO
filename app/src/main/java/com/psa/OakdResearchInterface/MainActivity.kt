@@ -1,4 +1,4 @@
-package com.example.testkotlintabbedapp
+package com.psa.OakdResearchInterface
 
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -9,7 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import com.example.testkotlintabbedapp.ui.main.SectionsPagerAdapter
-import com.example.testkotlintabbedapp.databinding.ActivityMainBinding
+import com.psa.OakdResearchInterface.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -26,11 +27,12 @@ class MainActivity : AppCompatActivity() {
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = binding.tabs
         tabs.setupWithViewPager(viewPager)
-        val fab: FloatingActionButton = binding.fab
 
-        fab.setOnClickListener { view ->
+
+        //val fab: FloatingActionButton = binding.fab
+        /*fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
-        }
+        }*/
     }
 }

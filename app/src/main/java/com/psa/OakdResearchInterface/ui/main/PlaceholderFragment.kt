@@ -8,8 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.testkotlintabbedapp.R
-import com.example.testkotlintabbedapp.databinding.FragmentMainBinding
+import com.psa.OakdResearchInterface.databinding.FragmentMainBinding
 
 /**
  * A placeholder fragment containing a simple view.

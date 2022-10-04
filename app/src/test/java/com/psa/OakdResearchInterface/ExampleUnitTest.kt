@@ -1,4 +1,4 @@
-package com.example.testkotlintabbedapp
+package com.psa.OakdResearchInterface
 
 import org.junit.Test
 
