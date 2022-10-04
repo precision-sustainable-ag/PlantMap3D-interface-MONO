@@ -12,23 +12,20 @@
         android:layout_height="match_parent"
         android:theme="@style/Theme.TestKotlinTabbedApp.AppBarOverlay">
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/view_pager"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="688dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_height="match_parent">
 
-        </androidx.viewpager.widget.ViewPager>
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="1022dp"
+                android:layout_height="557dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                app:layout_constraintBottom_toTopOf="@+id/tabs"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            </androidx.viewpager.widget.ViewPager>
 
             <TextView
                 android:id="@+id/title"
@@ -38,33 +35,36 @@
                 android:minHeight="?actionBarSize"
                 android:padding="@dimen/appbar_padding"
                 android:text="@string/app_name"
-                android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title" />
+                android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/collectionStatusTitleView" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <TextView
+                android:id="@+id/collectionStatusTitleView"
+                android:layout_width="182dp"
+                android:layout_height="30dp"
+                android:gravity="center_horizontal|bottom"
+                android:text="@string/collection_status_title"
+                app:layout_constraintBottom_toTopOf="@+id/collectionStatusView"
+                tools:layout_editor_absoluteX="448dp" />
+
+            <TextView
+                android:id="@+id/collectionStatusView"
+                android:layout_width="182dp"
+                android:layout_height="30dp"
+                android:gravity="center_horizontal"
+                android:text="@string/current_collection_status"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:layout_editor_absoluteX="448dp" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/collectionStatusTitleView"
+                tools:layout_editor_absoluteX="-16dp" />
 
-                <TextView
-                    android:id="@+id/collectionStatusTitleView"
-                    android:layout_width="182dp"
-                    android:layout_height="30dp"
-                    android:text="@string/collection_status_title"
-                    android:gravity="center_horizontal|bottom"
-                    app:layout_constraintBottom_toTopOf="@+id/collectionStatusView"
-                    app:layout_constraintStart_toStartOf="@+id/collectionStatusView" />
-
-                <TextView
-                    android:id="@+id/collectionStatusView"
-                    android:layout_width="182dp"
-                    android:layout_height="30dp"
-                    android:text="@string/current_collection_status"
-                    android:gravity="center_horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </TableRow>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
