@@ -18,8 +18,8 @@
 
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/view_pager"
-                android:layout_width="1022dp"
-                android:layout_height="557dp"
+                android:layout_width="1183dp"
+                android:layout_height="643dp"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:layout_constraintBottom_toTopOf="@+id/tabs"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -37,6 +37,7 @@
                 android:text="@string/app_name"
                 android:textAppearance="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/collectionStatusTitleView" />
 
             <TextView
@@ -46,7 +47,7 @@
                 android:gravity="center_horizontal|bottom"
                 android:text="@string/collection_status_title"
                 app:layout_constraintBottom_toTopOf="@+id/collectionStatusView"
-                tools:layout_editor_absoluteX="448dp" />
+                app:layout_constraintStart_toEndOf="@+id/title" />
 
             <TextView
                 android:id="@+id/collectionStatusView"
@@ -55,7 +56,7 @@
                 android:gravity="center_horizontal"
                 android:text="@string/current_collection_status"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:layout_editor_absoluteX="448dp" />
+                app:layout_constraintStart_toEndOf="@+id/title" />
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabs"
