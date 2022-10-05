@@ -21,8 +21,14 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
 
     override fun getItem(position: Int): Fragment {
         // getItem is called to instantiate the fragment for the given page.
-        // Return a PlaceholderFragment (defined as a static inner class below).
-        return PlaceholderFragment.newInstance(position + 1)
+        return when (position) {
+            //0 ->  ConfigurationFragment()
+            // 1 -> CollectionFragment()
+            // 2 -> ReviewFragment()
+            else -> PlaceholderFragment.newInstance(position + 1) // If nothing else return a PlaceholderFragment.
+        }
+        // If nothing else eturn a PlaceholderFragment (defined as a static inner class below).
+
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
