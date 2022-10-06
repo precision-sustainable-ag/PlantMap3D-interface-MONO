@@ -1,16 +1,25 @@
 <resources>
     <string name="app_name">Oak-D Project: Research Interface</string>
 
+
+    <!-- Input Labels -->
+    <string name="farm_code_label">Farm Code:</string>
+
+
     <!-- Tab Labels -->
     <string name="tab_text_1">Configuration</string>
     <string name="tab_text_2">Data Collection</string>
     <string name="tab_text_3">Data Review</string>
 
-    <!-- Collection Status Labels -->
+    <!-- Collection Status -->
     <string name="collection_status_title">Data Collection:</string>
     <string name="status_active">ACTIVE</string>
     <string name="status_paused">PAUSED</string>
     <string name="status_inactive">NOT STARTED</string>
     <string name="current_collection_status">@string/status_inactive</string>
+
+    <!-- Misc -->
+    <string name="enter_here_prompt"></string>
+
 
 </resources>

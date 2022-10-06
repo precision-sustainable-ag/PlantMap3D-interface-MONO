@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.psa.OakdResearchInterface.R
+import com.psa.OakdResearchInterface.ui.main.ConfigurationFragment
 
 private val TAB_TITLES = arrayOf(
     R.string.tab_text_1,
@@ -22,7 +23,7 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
     override fun getItem(position: Int): Fragment {
         // getItem is called to instantiate the fragment for the given page.
         return when (position) {
-            //0 ->  ConfigurationFragment()
+            0 ->  ConfigurationFragment()
             // 1 -> CollectionFragment()
             // 2 -> ReviewFragment()
             else -> PlaceholderFragment.newInstance(position + 1) // If nothing else return a PlaceholderFragment.

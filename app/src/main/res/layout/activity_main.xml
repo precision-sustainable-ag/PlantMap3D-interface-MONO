@@ -20,7 +20,7 @@
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="727dp"
+                android:layout_height="700dp"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:layout_constraintBottom_toTopOf="@+id/horizontal_tab_outline"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -102,17 +102,35 @@
                 android:id="@+id/horizontal_tab_outline"
                 android:layout_width="633dp"
                 android:layout_height="@dimen/bar_separator_width"
-                android:background="@color/white"
+                android:background="@color/off_white"
                 app:layout_constraintBottom_toTopOf="@+id/tabs"
                 app:layout_constraintStart_toStartOf="@+id/vertical_tab_outline" />
 
             <View
                 android:id="@+id/vertical_tab_outline"
-                android:layout_width="6dp"
-                android:layout_height="60dp"
-                android:background="@color/light_gray"
+                android:layout_width="@dimen/bar_separator_width"
+                android:layout_height="66dp"
+                android:background="@color/off_white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tabs" />
+
+            <View
+                android:id="@+id/vertical_tab_seperator1"
+                android:layout_width="@dimen/bar_separator_width"
+                android:layout_height="66dp"
+                android:layout_marginStart="170dp"
+                android:background="@color/off_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/vertical_tab_outline" />
+
+            <View
+                android:id="@+id/vertical_tab_seperator2"
+                android:layout_width="@dimen/bar_separator_width"
+                android:layout_height="66dp"
+                android:layout_marginStart="340dp"
+                android:background="@color/off_white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/vertical_tab_outline" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
