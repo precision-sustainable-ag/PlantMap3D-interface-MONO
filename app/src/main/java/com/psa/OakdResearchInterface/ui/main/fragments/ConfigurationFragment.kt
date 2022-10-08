@@ -3,6 +3,7 @@ package com.psa.OakdResearchInterface.ui.main.fragments
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -56,6 +57,8 @@ class ConfigurationFragment : Fragment() {
         // setup references and bind actions for this fragment's debugging elements
         _farmCodeDebug = binding.farmCodeDebugDisplayView
         mainViewModel.farmCodeUpdateList.add { farmCodeDebug.text = mainViewModel.farmCode.value } // execute this code when the farm code updates
+        mainViewModel.farmCodeUpdateList.add { Log.d("PSA_RSI_DEBUGGING", mainViewModel.farmCode.value.toString()) }
+
 
         return root
     }
