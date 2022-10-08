@@ -1,11 +1,12 @@
-package com.example.testkotlintabbedapp.ui.main
+package com.psa.OakdResearchInterface.ui.main
 
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.psa.OakdResearchInterface.R
-import com.psa.OakdResearchInterface.ui.main.ConfigurationFragment
+import com.psa.OakdResearchInterface.ui.main.fragments.ConfigurationFragment
+import com.psa.OakdResearchInterface.ui.main.fragments.PlaceholderFragment
 
 private val TAB_TITLES = arrayOf(
     R.string.tab_text_1,

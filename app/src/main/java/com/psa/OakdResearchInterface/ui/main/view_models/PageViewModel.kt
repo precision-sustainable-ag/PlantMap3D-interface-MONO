@@ -1,4 +1,4 @@
-package com.example.testkotlintabbedapp.ui.main
+package com.psa.OakdResearchInterface.ui.main.view_models
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,14 +6,15 @@ import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-class PageViewModel : ViewModel() {
+class PageViewModel : ViewModel() { // holds primarily self contained page data
 
-    private val _index = MutableLiveData<Int>()
+    private val _index = MutableLiveData<Int>() // holds the page number for the current page
     val text: LiveData<String> = Transformations.map(_index) {
         "Hello world from section: $it"
     }
-
     fun setIndex(index: Int) {
         _index.value = index
     }
+
+
 }

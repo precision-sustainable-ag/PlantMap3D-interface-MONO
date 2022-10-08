@@ -1,27 +1,33 @@
-package com.example.testkotlintabbedapp.ui.main
+package com.psa.OakdResearchInterface.ui.main.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.psa.OakdResearchInterface.databinding.FragmentMainBinding
+import com.psa.OakdResearchInterface.ui.main.view_models.MasterViewModel
+import com.psa.OakdResearchInterface.ui.main.view_models.PageViewModel
 
 /**
  * A placeholder fragment containing a simple view.
  */
 class PlaceholderFragment : Fragment() {
 
-    private lateinit var pageViewModel: PageViewModel
-    private var _binding: FragmentMainBinding? = null
 
+    private var _binding: FragmentMainBinding? = null
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    private lateinit var pageViewModel: PageViewModel
+    private val mainViewModel: MasterViewModel by activityViewModels()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,10 +36,7 @@ class PlaceholderFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         _binding = FragmentMainBinding.inflate(inflater, container, false)
         val root = binding.root
