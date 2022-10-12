@@ -14,8 +14,8 @@
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/input_field_spacing"
-            android:padding="@dimen/input_field_spacing">
+            android:layout_margin="@dimen/input_field_padding"
+            android:padding="@dimen/input_field_padding">
 
             <LinearLayout
                 android:id="@+id/farmCodeGroup"
@@ -31,7 +31,8 @@
                     android:background="@color/light_gray"
                     android:paddingLeft="@dimen/label_horizontal_padding"
                     android:paddingTop="@dimen/label_vertical_padding"
-                    android:text="@string/farm_code_label" />
+                    android:text="@string/farm_code_label"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/editTextFarmCode"
@@ -46,53 +47,246 @@
             </LinearLayout>
 
             <Space
-                android:layout_width="55dp"
-                android:layout_height="68dp" />
+                android:layout_width="@dimen/input_field_horizontal_spacing"
+                android:layout_height="match_parent" />
 
             <LinearLayout
-                android:id="@+id/farmCodeDebugGroup"
-                android:layout_width="209dp"
+                android:id="@+id/plotIDGroup"
+                android:layout_width="148dp"
                 android:layout_height="match_parent"
                 android:background="@color/mid_gray"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/farmCodeDebugLabel"
+                    android:id="@+id/plotCodeLabel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/light_gray"
                     android:paddingLeft="@dimen/label_horizontal_padding"
                     android:paddingTop="@dimen/label_vertical_padding"
-                    android:text="Farm Code Debug Output:" />
+                    android:text="@string/plot_code_label"
+                    android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/farmCodeDebugDisplayView"
+                <EditText
+                    android:id="@+id/editTextPlotCode"
                     android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:background="@color/mid_gray"
-                    android:ems="5"
-                    android:paddingHorizontal="@dimen/text_input_padding"
-                    android:text="@string/enter_here_prompt"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/black"
+                    android:ems="10"
+                    android:inputType="number"
+                    android:text="@string/default_plot_code"
                     android:textColor="@color/off_white" />
+
             </LinearLayout>
 
+            <Space
+                android:layout_width="@dimen/input_field_horizontal_spacing"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:id="@+id/seasonTimingGroup"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/mid_gray"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/seasonTimingLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/light_gray"
+                    android:paddingLeft="@dimen/label_horizontal_padding"
+                    android:paddingTop="@dimen/label_vertical_padding"
+                    android:text="@string/season_timing_label"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/editTextSeasonTiming"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/black"
+                    android:ems="5"
+                    android:inputType="textCapCharacters"
+                    android:paddingHorizontal="@dimen/text_input_padding"
+                    android:text="@string/default_season_timing"
+                    android:textColor="@color/off_white" />
+
+            </LinearLayout>
+
+
+            <!-- Commented out as no longer needed for testing.
+           <LinearLayout
+               android:id="@+id/farmCodeDebugGroup"
+               android:layout_width="209dp"
+               android:layout_height="match_parent"
+               android:background="@color/mid_gray"
+               android:orientation="vertical">
+
+               <TextView
+                   android:id="@+id/farmCodeDebugLabel"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:background="@color/light_gray"
+                   android:paddingLeft="@dimen/label_horizontal_padding"
+                   android:paddingTop="@dimen/label_vertical_padding"
+                   android:text="Farm Code Debug Output:" />
+
+               <TextView
+                   android:id="@+id/farmCodeDebugDisplayView"
+                   android:layout_width="match_parent"
+                   android:layout_height="45dp"
+                   android:background="@color/mid_gray"
+                   android:ems="5"
+                   android:paddingHorizontal="@dimen/text_input_padding"
+                   android:text="@string/enter_here_prompt"
+                   android:textColor="@color/off_white" />
+           </LinearLayout> -->
+
+       </TableRow>
+
+        <TableRow
+            android:id="@+id/SpacingRow"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/input_field_vertical_spacing" />
+        </TableRow>
+
+        <TableRow
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:layout_margin="@dimen/input_field_padding"
+           android:padding="@dimen/input_field_padding">
+
+            <LinearLayout
+                android:id="@+id/cashCropGroup"
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:background="@color/mid_gray"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/cashCropLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/light_gray"
+                    android:paddingLeft="@dimen/label_horizontal_padding"
+                    android:paddingTop="@dimen/label_vertical_padding"
+                    android:text="@string/cash_crop_label"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/cashCropSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingVertical="@dimen/label_vertical_padding"
+                    android:paddingLeft="@dimen/label_horizontal_padding" />
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="@dimen/input_field_horizontal_spacing"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:id="@+id/coverCropGroup"
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:background="@color/mid_gray"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/coverCropLabel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/light_gray"
+                    android:paddingLeft="@dimen/label_horizontal_padding"
+                    android:paddingTop="@dimen/label_vertical_padding"
+                    android:text="@string/cover_crop_label"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/coverCropSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/label_horizontal_padding"
+                    android:paddingVertical="@dimen/label_vertical_padding" />
+
+            </LinearLayout>
+
+            <Space
+                android:layout_width="@dimen/input_field_horizontal_spacing"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+               android:id="@+id/weatherGroup"
+               android:layout_width="250dp"
+               android:layout_height="match_parent"
+               android:background="@color/mid_gray"
+               android:orientation="vertical">
+
+               <TextView
+                   android:id="@+id/weatherLabel"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:background="@color/light_gray"
+                   android:paddingLeft="@dimen/label_horizontal_padding"
+                   android:paddingTop="@dimen/label_vertical_padding"
+                   android:text="@string/weather_label"
+                   android:textStyle="bold" />
+
+               <Spinner
+                   android:id="@+id/weatherSpinner"
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:paddingLeft="@dimen/label_horizontal_padding"
+                   android:paddingVertical="@dimen/label_vertical_padding"/>
+
+           </LinearLayout>
+
+           <Space
+               android:layout_width="@dimen/input_field_horizontal_spacing"
+               android:layout_height="match_parent" />
+       </TableRow>
+
+        <TableRow
+            android:id="@+id/SpacingRow2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/input_field_vertical_spacing" />
+        </TableRow>
+
+        <TableRow
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:layout_margin="@dimen/input_field_padding"
+           android:dividerPadding="@dimen/input_field_padding"
+           android:padding="@dimen/input_field_padding">
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/SpacingRow3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Space
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/input_field_vertical_spacing" />
         </TableRow>
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/input_field_spacing"/>
+            android:layout_margin="@dimen/input_field_padding"
+            android:padding="@dimen/input_field_padding">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/input_field_spacing"/>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="@dimen/input_field_spacing"
-            android:dividerPadding="@dimen/input_field_spacing"/>
+        </TableRow>
     </TableLayout>
 
 </FrameLayout>

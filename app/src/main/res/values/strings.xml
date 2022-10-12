@@ -2,14 +2,18 @@
     <string name="app_name">Oak-D Project: Research Interface</string>
 
 
-    <!-- Input Labels -->
-    <string name="farm_code_label">Farm Code:</string>
-
-
-    <!-- Tab Labels -->
+    <!-- Labels -->
     <string name="tab_text_1">Configuration</string>
     <string name="tab_text_2">Data Collection</string>
     <string name="tab_text_3">Data Review</string>
+    <string name="farm_code_label">Farm Code:</string>
+    <string name="plot_code_label">Plot Number:</string>
+    <string name="season_timing_label">Stage of the Season:</string>
+    <string name="cash_crop_label">Cash Crop:</string>
+    <string name="cover_crop_label">Cover Crop:</string>
+    <string name="weather_label">Weather Conditions:</string>
+
+
 
     <!-- Collection Status -->
     <string name="collection_status_title">Data Collection:</string>
@@ -18,8 +22,11 @@
     <string name="status_inactive">NOT STARTED</string>
     <string name="current_collection_status">@string/status_inactive</string>
 
-    <!-- Misc -->
+    <!-- Defaults -->
     <string name="enter_here_prompt"></string>
+    <string name="default_plot_code">1</string>
+    <string name="default_season_timing">Example Timing</string>
+
 
 
 </resources>
