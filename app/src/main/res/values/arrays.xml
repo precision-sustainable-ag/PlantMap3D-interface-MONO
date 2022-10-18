@@ -16,10 +16,42 @@
     </string-array>
 
     <string-array name="cover_crops">
-        <item>Crop Name 1</item>
-        <item>Crop Name 2</item>
-        <item>Long Crop Name Test</item>
-        <item>Even Longer Crop Name Test</item>
-        <item>Crop Name 5</item>
+        <item>Alfalfa Dormant</item>
+        <item>Barley</item>
+        <item>Brassica Forage</item>
+        <item>Buckwheat</item>
+        <item>Cereal Rye</item>
+        <item>Clover Alsike</item>
+        <item>Clover Balansa</item>
+        <item>Clover Berseem</item>
+        <item>Clover Crimson</item>
+        <item>Clover Red</item>
+        <item>Clover White</item>
+        <item>Cowpea</item>
+        <item>Millet Foxtail</item>
+        <item>Millet Japanese</item>
+        <item>Millet Pearl</item>
+        <item>Mustard</item>
+        <item>Oats</item>
+        <item>Pea</item>
+        <item>Phacelia</item>
+        <item>Radish Forage</item>
+        <item>Radish Oilseed</item>
+        <item>Rape Oilseed</item>
+        <item>Rapeseed Forage</item>
+        <item>Ryegrass Annual</item>
+        <item>Ryegrass Perennial</item>
+        <item>Sorghum</item>
+        <item>Sorghum-sudangrass</item>
+        <item>Sudangrass</item>
+        <item>Sunflower</item>
+        <item>Sunn Hemp</item>
+        <item>Sweetclover Yellow</item>
+        <item>Teff</item>
+        <item>Triticale</item>
+        <item>Turnip Forage</item>
+        <item>Turnip Purple Top</item>
+        <item>Vetch Hairy</item>
+        <item>Wheat</item>
     </string-array>
 </resources>
