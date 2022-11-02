@@ -12,7 +12,7 @@
     <string name="cash_crop_label">Cash Crop:</string>
     <string name="cover_crop_label">Cover Crop:</string>
     <string name="weather_label">Weather Conditions:</string>
-
+    <string name="data_review_prompt">Tap to select data files\nfor upload or deletion.</string>
 
 
     <!-- Collection Status -->
@@ -22,11 +22,14 @@
     <string name="status_inactive">NOT STARTED</string>
     <string name="current_collection_status">@string/status_inactive</string>
 
+
+    <!-- Toast Notifications -->
+    <string name="data_upload_completion_notif">Data upload completed for: </string>
+
     <!-- Defaults -->
     <string name="enter_here_prompt"></string>
     <string name="default_plot_code">1</string>
     <string name="default_season_timing">Example Timing</string>
-
-
+    <string name="default_session_ID">XX-Cover-Timing-Plot</string>
 
 </resources>

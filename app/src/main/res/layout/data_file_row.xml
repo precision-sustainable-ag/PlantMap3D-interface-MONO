@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_constraintTop_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent">
+
+    <LinearLayout
+        android:id="@+id/rowLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/dataLinearLayoutItem2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageButton
+                android:id="@+id/dataFileImageButtonItem2"
+                android:layout_width="@dimen/data_review_data_file_width"
+                android:layout_height="@dimen/data_review_data_file_height"
+                android:longClickable="false"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/file_unselected" />
+
+            <TextView
+                android:id="@+id/sessionIDTextViewItem2"
+                android:layout_width="@dimen/data_review_data_file_width"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/data_review_data_file_vertical_separation"
+                android:text="@string/default_session_ID"
+                android:textAlignment="center"
+                android:textColor="@color/off_white"
+                android:textSize="@dimen/filename_text_size"
+                android:textStyle="italic|bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dataLinearLayoutItem1"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageButton
+                android:id="@+id/dataFileImageButtonItem1"
+                android:layout_width="@dimen/data_review_data_file_width"
+                android:layout_height="@dimen/data_review_data_file_height"
+                android:longClickable="false"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/file_unselected" />
+
+            <TextView
+                android:id="@+id/sessionIDTextViewItem1"
+                android:layout_width="@dimen/data_review_data_file_width"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/data_review_data_file_vertical_separation"
+                android:text="@string/default_session_ID"
+                android:textAlignment="center"
+                android:textColor="@color/off_white"
+                android:textSize="@dimen/filename_text_size"
+                android:textStyle="italic|bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dataLinearLayoutItem3"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageButton
+                android:id="@+id/dataFileImageButtonItem3"
+                android:layout_width="@dimen/data_review_data_file_width"
+                android:layout_height="@dimen/data_review_data_file_height"
+                android:longClickable="false"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/file_unselected" />
+
+            <TextView
+                android:id="@+id/sessionIDTextViewItem3"
+                android:layout_width="@dimen/data_review_data_file_width"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/data_review_data_file_vertical_separation"
+                android:text="@string/default_session_ID"
+                android:textAlignment="center"
+                android:textColor="@color/off_white"
+                android:textSize="@dimen/filename_text_size"
+                android:textStyle="italic|bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dataLinearLayoutItem4"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageButton
+                android:id="@+id/dataFileImageButtonItem4"
+                android:layout_width="@dimen/data_review_data_file_width"
+                android:layout_height="@dimen/data_review_data_file_height"
+                android:longClickable="false"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/file_unselected" />
+
+            <TextView
+                android:id="@+id/sessionIDTextViewItem4"
+                android:layout_width="@dimen/data_review_data_file_width"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/data_review_data_file_vertical_separation"
+                android:text="@string/default_session_ID"
+                android:textAlignment="center"
+                android:textColor="@color/off_white"
+                android:textSize="@dimen/filename_text_size"
+                android:textStyle="italic|bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dataLinearLayoutItem5"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <ImageButton
+                android:id="@+id/dataFileImageButtonItem5"
+                android:layout_width="@dimen/data_review_data_file_width"
+                android:layout_height="@dimen/data_review_data_file_height"
+                android:longClickable="false"
+                android:padding="0dp"
+                android:scaleType="fitXY"
+                app:srcCompat="@drawable/file_unselected" />
+
+            <TextView
+                android:id="@+id/sessionIDTextViewItem5"
+                android:layout_width="@dimen/data_review_data_file_width"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/data_review_data_file_vertical_separation"
+                android:text="@string/default_session_ID"
+                android:textAlignment="center"
+                android:textColor="@color/off_white"
+                android:textSize="@dimen/filename_text_size"
+                android:textStyle="italic|bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

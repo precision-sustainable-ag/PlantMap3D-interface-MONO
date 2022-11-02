@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="label_horizontal_padding">5dp</dimen>
+    <dimen name="label_vertical_padding">3dp</dimen>
     <dimen name="bar_separator_width">6dp</dimen>
+
     <dimen name="input_field_padding">10dp</dimen>
     <dimen name="input_field_horizontal_spacing">75dp</dimen>
     <dimen name="input_field_vertical_spacing">10dp</dimen>
-    <dimen name="label_horizontal_padding">5dp</dimen>
-    <dimen name="label_vertical_padding">3dp</dimen>
     <dimen name="text_input_padding">7dp</dimen>
+
+    <dimen name="data_review_control_button_height">80dp</dimen>
+    <dimen name="data_review_big_button_spacing">70dp</dimen>
+    <dimen name="data_review_small_button_spacing">15dp</dimen>
+    <dimen name="data_review_data_file_height">150dp</dimen>
+    <dimen name="data_review_data_file_width">230dp</dimen>
+    <dimen name="data_review_data_file_padding">12dp</dimen>
+    <dimen name="data_review_data_file_vertical_separation">12dp</dimen>
+
+    <dimen name="instruction_text_size">20sp</dimen>
+    <dimen name="filename_text_size">15sp</dimen>
+
+    <integer name="max_data_per_data_row">3</integer>
 </resources>
