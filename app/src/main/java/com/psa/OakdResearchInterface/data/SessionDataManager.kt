@@ -3,7 +3,11 @@ package com.psa.OakdResearchInterface.data
 import android.util.Log
 
 class SessionDataManager (val updateUIFunc: (List<SessionData>) -> Unit, val  uploadDataFunc: (SessionData) -> Unit) {
-    private val sessionDataList: MutableList<SessionData> = mutableListOf()
+    val sessionDataList: MutableList<SessionData> = mutableListOf()
+
+    init {
+        updateDataDisplay() // ensure display is up to date and eveything is properly initialized
+    }
 
     fun addData(sessionData: SessionData){ // adds the session data to the list and updates the UI to represent that
         insertDataIntoList(sessionData)

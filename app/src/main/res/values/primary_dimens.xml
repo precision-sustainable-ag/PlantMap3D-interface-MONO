@@ -16,9 +16,8 @@
     <dimen name="data_review_data_file_width">230dp</dimen>
     <dimen name="data_review_data_file_padding">12dp</dimen>
     <dimen name="data_review_data_file_vertical_separation">12dp</dimen>
+    <dimen name="data_review_scroll_bar_size">9dp</dimen>
 
     <dimen name="instruction_text_size">20sp</dimen>
     <dimen name="filename_text_size">15sp</dimen>
-
-    <integer name="max_data_per_data_row">3</integer>
 </resources>
