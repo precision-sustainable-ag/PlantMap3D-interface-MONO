@@ -1,41 +1,27 @@
-package com.psa.OakdResearchInterface
+package com.psa.oakdresearchinterface
 
-import android.content.Context
 import android.os.AsyncTask
 import android.os.Bundle
-import android.util.AttributeSet
 import android.util.Log
-import android.util.Xml
-import android.view.LayoutInflater
-import android.view.ViewGroup
-import android.widget.ImageButton
-import android.widget.LinearLayout
-import android.widget.ScrollView
-import android.widget.Toast
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.children
-import androidx.core.view.setPadding
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.tabs.TabLayout
-import com.psa.OakdResearchInterface.data.SessionData
-import com.psa.OakdResearchInterface.data.SessionDataManager
-import com.psa.OakdResearchInterface.data.TCPClient
-import com.psa.OakdResearchInterface.data.TCP_TAG
-import com.psa.OakdResearchInterface.databinding.ActivityMainBinding
-import com.psa.OakdResearchInterface.ui.main.SectionsPagerAdapter
-import com.psa.OakdResearchInterface.ui.main.view_models.MasterViewModel
-import org.xmlpull.v1.XmlPullParser
+import com.psa.oakdresearchinterface.data.*
+import com.psa.oakdresearchinterface.databinding.ActivityMainBinding
+import com.psa.oakdresearchinterface.ui.main.SectionsPagerAdapter
+import com.psa.oakdresearchinterface.ui.main.view_models.MasterViewModel
 
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    val mainViewModel: MasterViewModel by viewModels() // instantiate/setup the master view model here from the pool of view models
-    private var tcpClient: TCPClient? = null
-    private lateinit var sessionDataManager: SessionDataManager
-   // private lateinit var dataButtonAttributeSet: AttributeSet
+    private val mainViewModel: MasterViewModel by viewModels() // instantiate/setup the master view model here from the pool of view models
+
+    private var _collectionStatusTextView: TextView? = null
+    private val collectionStatusTextView get() = _collectionStatusTextView!!
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -50,8 +36,15 @@ class MainActivity : AppCompatActivity() {
         val tabs: TabLayout = binding.tabs
         tabs.setupWithViewPager(viewPager)
 
+        _collectionStatusTextView = binding.collectionStatusView
+        mainViewModel.sessionRunStateUpdateList.add{
+            collectionStatusTextView.text = mainViewModel.sessionRunState.value
+        }
+
         // Setup TCP Connection
-        ConnectTask{ tcpClient = it }.execute("") // pass in an expression that sets the tcp client
+       // ConnectTask{ tcpClient = it }.execute("") // pass in an expression that sets the tcp client TODO( Move to OakDController )
+
+
     }
 
 

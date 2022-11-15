@@ -1,6 +1,7 @@
-package com.psa.OakdResearchInterface.ui.main.fragments
+package com.psa.oakdresearchinterface.ui.main.fragments
 
 import android.annotation.SuppressLint
+import android.media.Image
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -15,10 +16,10 @@ import androidx.core.view.children
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.psa.OakdResearchInterface.R
-import com.psa.OakdResearchInterface.data.*
-import com.psa.OakdResearchInterface.databinding.FragmentReviewBinding
-import com.psa.OakdResearchInterface.ui.main.view_models.MasterViewModel
+import com.psa.oakdresearchinterface.R
+import com.psa.oakdresearchinterface.data.*
+import com.psa.oakdresearchinterface.databinding.FragmentReviewBinding
+import com.psa.oakdresearchinterface.ui.main.view_models.MasterViewModel
 
 
 class ReviewFragment : Fragment() {
@@ -59,8 +60,21 @@ class ReviewFragment : Fragment() {
     private var dataScrollRow = 0
 
 
+    private lateinit var cameraController: CameraController
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Init session data manager
+        sessionDataManager = SessionDataManager(updateSessionDataDisplay, uploadSessionData)
+
+        // Setup test data
+        val testDataList = mutableListOf<SessionData>()
+        for(i in 0 until (maxDataFilesPerRow*10)+2){
+            testDataList.add(SessionData(requireContext(), "TEST_SESSION($i)", attemptDataLoad = true))
+        }
+        sessionDataManager.addData(testDataList, updateUI = false) // don't update the UI yet, as the UI objects haven't been properly init-ed
 
         // Add to update lists in onCreate to avoid adding to the list every time the tab UI is created/destroyed
         mainViewModel.selectAllButtonStateUpdateList.add{
@@ -75,11 +89,22 @@ class ReviewFragment : Fragment() {
             if(mainViewModel.deleteButtonState.value == BUTTON_PRESSED)
                 sessionDataManager.deleteSelectedData()
         }
+
+        // Setup Camera Controller
+        cameraController = OakDController(handleNewImage)
+
+        mainViewModel.sessionRunStateUpdateList.add{
+            when (mainViewModel.sessionRunState.value){
+                COLLECT_RUNNING -> cameraController.startCollection()
+                COLLECT_PAUSED -> cameraController.pauseCollection()
+                COLLECT_NOT_STARTED -> cameraController.stopCollection()
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
     @SuppressLint("ClickableViewAccessibility")
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
         _binding = FragmentReviewBinding.inflate(inflater, container, false)
         val root = binding.root
@@ -88,7 +113,6 @@ class ReviewFragment : Fragment() {
         _selectAllButton = binding.selectAllButton
         selectAllButton.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
-
                 if(!allSelected){
                     selectAllButton.setImageResource(R.drawable.select_all_button_clicked)
                     Log.d(UI_TAG, "Select all button: Pressed")
@@ -101,9 +125,7 @@ class ReviewFragment : Fragment() {
                 }
                 //allSelected = !allSelected
             }
-           /* else if (event.action == MotionEvent.ACTION_UP) {
 
-            }*/
             false
         }
 
@@ -144,6 +166,7 @@ class ReviewFragment : Fragment() {
         _scrollUpButton = binding.scrollUpButton
         _scrollDownButton = binding.scrollDownButton
         scrollUpButton.setOnClickListener {
+            Log.d(UI_TAG, "Scroll up button: Pressed")
             if(dataRowCount >= fullRowsPerPage) { // if a need to scroll at all
                 dataScrollRow = maxOf(dataScrollRow - rowsPerScroll, 0)
                 // scroll to the first item of the target row
@@ -154,9 +177,14 @@ class ReviewFragment : Fragment() {
             }
         }
         scrollDownButton.setOnClickListener {
+            Log.d(UI_TAG, "Scroll down button: Pressed")
             if(dataRowCount >= fullRowsPerPage){ // if a need to scroll at all
                 dataScrollRow = minOf(dataScrollRow+rowsPerScroll, dataRowCount-1)
                 // scroll to the first item of the target row
+                Log.d(UI_TAG, "Data UI items: ${dataFileUIItems.size}")
+                Log.d(UI_TAG, "Data Scroll Row: $dataScrollRow")
+                Log.d(UI_TAG, "Data Row Count: $dataRowCount")
+
                 dataScrollView.scrollToDescendant(
                     dataFileUIItems[minOf(dataScrollRow+rowDirectionalOffset,dataRowCount-1) * maxDataFilesPerRow]
                 ) // the row offset accounts for the fact that the scroller only scrolls until the item is on screen
@@ -165,23 +193,33 @@ class ReviewFragment : Fragment() {
         }
 
 
-        // Setup Session Data
+        // Update Session Data Display
         _dataFileLayout = binding.dataFileLinearLayout
-        sessionDataManager = SessionDataManager(
-            updateSessionDataDisplay,
-            uploadSessionData
-        )
-
-        // Setup test data
-        val testDataList = mutableListOf<SessionData>()
-        for(i in 0 until (maxDataFilesPerRow*10)+2){
-            testDataList.add(SessionData(requireContext(), "TEST_SESSION($i)", attemptDataLoad = true))
-        }
-        sessionDataManager.addData(testDataList)
+        sessionDataManager.updateDataUI()
 
 
 
         return root
+    }
+
+
+
+    private var allSelected = false
+    private fun toggleSelectAll(){
+        val targetSelectState = !allSelected
+        // If want all selected, click all resource, if not, default resource
+        val targetSelectAllResource = if(targetSelectState) R.drawable.file_selected else R.drawable.file_unselected
+
+        // items in the sessionDataList have indexes that match with their corresponding buttons
+        for(i in 0 until minOf(dataFileButtons.size, sessionDataManager.sessionDataList.size)){
+            if(sessionDataManager.sessionDataList[i].isSelected != targetSelectState){
+                sessionDataManager.sessionDataList[i].setSelected(targetSelectState)
+                dataFileButtons[i].setImageResource(targetSelectAllResource)
+            }
+        }
+
+        allSelected = targetSelectState
+        Log.d(UI_CLEAN_TAG, "${if(!allSelected) "Des" else "S"}elected all data files.")
     }
 
 
@@ -263,23 +301,7 @@ class ReviewFragment : Fragment() {
         Toast.makeText(context, "Data upload started for: ${data.sessionSubDir}", Toast.LENGTH_SHORT).show()
     }
 
-
-    private var allSelected = false
-    private fun toggleSelectAll(){
-        val targetSelectState = !allSelected
-        // If want all selected, click all resource, if not, default resource
-        val targetSelectAllResource = if(targetSelectState) R.drawable.file_selected else R.drawable.file_unselected
-
-        // items in the sessionDataList have indexes that match with their corresponding buttons
-        for(i in 0 until minOf(dataFileButtons.size, sessionDataManager.sessionDataList.size)){
-            if(sessionDataManager.sessionDataList[i].isSelected != targetSelectState){
-                sessionDataManager.sessionDataList[i].setSelected(targetSelectState)
-                dataFileButtons[i].setImageResource(targetSelectAllResource)
-            }
-        }
-
-        allSelected = targetSelectState
-        Log.d(UI_CLEAN_TAG, "${if(!allSelected) "Des" else "S"}elected all data files.")
+    private val handleNewImage: (Image)->Unit = { newImg: Image ->
+        // TODO: Have a universal way to handle a new piece of image data input into the system
     }
-
 }

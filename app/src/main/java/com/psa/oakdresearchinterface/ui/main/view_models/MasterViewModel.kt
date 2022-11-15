@@ -1,4 +1,4 @@
-package com.psa.OakdResearchInterface.ui.main.view_models
+package com.psa.oakdresearchinterface.ui.main.view_models
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -17,8 +17,7 @@ class MasterViewModel : ViewModel() { // holds data that can be shared between t
     val cashCropUpdateList: MutableList<()->Unit> = mutableListOf()
     val coverCropUpdateList: MutableList<()->Unit> = mutableListOf()
     val weatherCondUpdateList: MutableList<()->Unit> = mutableListOf()
-    val startSessionButtonStateUpdateList: MutableList<()->Unit> = mutableListOf()
-    val stopSessionButtonStateUpdateList: MutableList<()->Unit> = mutableListOf()
+    val sessionRunStateUpdateList: MutableList<()->Unit> = mutableListOf()
     val selectAllButtonStateUpdateList: MutableList<()->Unit> = mutableListOf()
     val uploadButtonStateUpdateList: MutableList<()->Unit> = mutableListOf()
     val deleteButtonStateUpdateList: MutableList<()->Unit> = mutableListOf()
@@ -73,17 +72,11 @@ class MasterViewModel : ViewModel() { // holds data that can be shared between t
     }
     
     // Data Collection Triggers
-    private val mutableStartSessionButtonState = MutableLiveData<String>() // value safe to be set asynchronously (private to prevent data retrieval from it)
-    val startSessionButtonState: LiveData<String> get() = mutableStartSessionButtonState // variable that is updated once safe to be, the variable that data is retrieved from
-    fun setStartSessionButtonState(newValue: String){ // public setter for the private mutable variable
-        mutableStartSessionButtonState.value = newValue
-        executeExpressions(startSessionButtonStateUpdateList)
-    }
-    private val mutableStopSessionButtonState = MutableLiveData<String>() // value safe to be set asynchronously (private to prevent data retrieval from it)
-    val stopSessionButtonState: LiveData<String> get() = mutableStopSessionButtonState // variable that is updated once safe to be, the variable that data is retrieved from
-    fun setStopSessionButtonState(newValue: String){ // public setter for the private mutable variable
-        mutableStopSessionButtonState.value = newValue
-        executeExpressions(stopSessionButtonStateUpdateList)
+    private val mutableSessionRunState = MutableLiveData<String>() // value safe to be set asynchronously (private to prevent data retrieval from it)
+    val sessionRunState: LiveData<String> get() = mutableSessionRunState // variable that is updated once safe to be, the variable that data is retrieved from
+    fun setSessionRunState(newValue: String){ // public setter for the private mutable variable
+        mutableSessionRunState.value = newValue
+        executeExpressions(sessionRunStateUpdateList)
     }
     
     // Data Review Triggers

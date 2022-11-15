@@ -18,6 +18,13 @@
     <dimen name="data_review_data_file_vertical_separation">12dp</dimen>
     <dimen name="data_review_scroll_bar_size">9dp</dimen>
 
+    <dimen name="data_collection_control_button_width">175dp</dimen>
+    <dimen name="data_collection_control_button_large_width">250dp</dimen>
+    <dimen name="data_collection_control_button_height">110dp</dimen>
+    <dimen name="data_collection_horizontal_button_spacing">15dp</dimen>
+    <dimen name="data_collection_vertical_button_spacing">12dp</dimen>
+
+
     <dimen name="instruction_text_size">20sp</dimen>
     <dimen name="filename_text_size">15sp</dimen>
 </resources>

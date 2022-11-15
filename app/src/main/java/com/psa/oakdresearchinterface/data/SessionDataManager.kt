@@ -1,22 +1,21 @@
-package com.psa.OakdResearchInterface.data
+package com.psa.oakdresearchinterface.data
 
 import android.util.Log
 
-class SessionDataManager (val updateUIFunc: (List<SessionData>) -> Unit, val  uploadDataFunc: (SessionData) -> Unit) {
+class SessionDataManager (private val updateUIFunc: (List<SessionData>) -> Unit, private val  uploadDataFunc: (SessionData) -> Unit) {
     val sessionDataList: MutableList<SessionData> = mutableListOf()
 
-    init {
-        updateDataDisplay() // ensure display is up to date and eveything is properly initialized
-    }
 
-    fun addData(sessionData: SessionData){ // adds the session data to the list and updates the UI to represent that
+    fun addData(sessionData: SessionData, updateUI: Boolean = true){ // adds the session data to the list and updates the UI to represent that
         insertDataIntoList(sessionData)
-        updateDataDisplay()
+        if(updateUI)
+            updateDataUI()
     }
-    fun addData(sessionData: MutableList<SessionData>){ // adds a list session data to the list and updates the UI to represent that
+    fun addData(sessionData: MutableList<SessionData>, updateUI: Boolean = true){ // adds a list session data to the list and updates the UI to represent that
         for(data in sessionData)
             insertDataIntoList(data)
-        updateDataDisplay()
+        if(updateUI)
+            updateDataUI()
     }
     private fun insertDataIntoList(sessionData: SessionData){ // adds session data into the list while maintaining alphabetical order
         if(sessionDataList.isEmpty()) {
@@ -49,7 +48,6 @@ class SessionDataManager (val updateUIFunc: (List<SessionData>) -> Unit, val  up
             for (data in selectedData)
                 data.deleteSelf()
         }
-
     }
     fun uploadSelectedData() {
         val selectedData = getSelectedData()
@@ -59,7 +57,7 @@ class SessionDataManager (val updateUIFunc: (List<SessionData>) -> Unit, val  up
             Log.d(UI_CLEAN_TAG, "Data upload attempted, no data to upload")
     }
 
-    fun updateDataDisplay(){
+    fun updateDataUI(){
         updateUIFunc(sessionDataList)
     }
 }

@@ -1,8 +1,8 @@
-package com.psa.OakdResearchInterface.data.main.depricated
+package com.psa.oakdresearchinterface.data.main.depricated
 
 import android.util.Log
-import com.psa.OakdResearchInterface.data.TCP_TAG
-import com.psa.OakdResearchInterface.ui.main.view_models.MasterViewModel
+import com.psa.oakdresearchinterface.data.TCP_TAG
+import com.psa.oakdresearchinterface.ui.main.view_models.MasterViewModel
 import io.ktor.network.selector.*
 import io.ktor.network.sockets.*
 import io.ktor.util.*

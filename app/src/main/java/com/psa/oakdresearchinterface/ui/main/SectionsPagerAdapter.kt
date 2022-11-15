@@ -1,13 +1,14 @@
-package com.psa.OakdResearchInterface.ui.main
+package com.psa.oakdresearchinterface.ui.main
 
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.psa.OakdResearchInterface.R
-import com.psa.OakdResearchInterface.ui.main.fragments.ConfigurationFragment
-import com.psa.OakdResearchInterface.ui.main.fragments.PlaceholderFragment
-import com.psa.OakdResearchInterface.ui.main.fragments.ReviewFragment
+import com.psa.oakdresearchinterface.R
+import com.psa.oakdresearchinterface.ui.main.fragments.CollectionFragment
+import com.psa.oakdresearchinterface.ui.main.fragments.ConfigurationFragment
+import com.psa.oakdresearchinterface.ui.main.fragments.PlaceholderFragment
+import com.psa.oakdresearchinterface.ui.main.fragments.ReviewFragment
 
 private val TAB_TITLES = arrayOf(
     R.string.tab_text_1,
@@ -26,12 +27,11 @@ class SectionsPagerAdapter(private val context: Context, fm: FragmentManager) :
         // getItem is called to instantiate the fragment for the given page.
         return when (position) {
             0 ->  ConfigurationFragment()
-            //1 -> CollectionFragment()
+            1 -> CollectionFragment()
             2 -> ReviewFragment()
             else -> PlaceholderFragment.newInstance(position + 1) // If nothing else return a PlaceholderFragment.
         }
-        // If nothing else eturn a PlaceholderFragment (defined as a static inner class below).
-
+        // If nothing else return a PlaceholderFragment (defined as a static inner class below).
     }
 
     override fun getPageTitle(position: Int): CharSequence? {

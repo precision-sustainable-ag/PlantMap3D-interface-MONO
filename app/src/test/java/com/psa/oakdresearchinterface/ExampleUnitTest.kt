@@ -1,4 +1,4 @@
-package com.psa.OakdResearchInterface
+package com.psa.oakdresearchinterface
 
 import org.junit.Test
 

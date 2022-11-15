@@ -1,10 +1,9 @@
-package com.psa.OakdResearchInterface.ui.main.view_models
+package com.psa.oakdresearchinterface.ui.main.view_models
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 
 class PageViewModel : ViewModel() { // holds primarily self contained page data
 

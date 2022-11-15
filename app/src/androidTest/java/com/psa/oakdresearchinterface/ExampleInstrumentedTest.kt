@@ -1,4 +1,4 @@
-package com.psa.OakdResearchInterface
+package com.psa.oakdresearchinterface
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

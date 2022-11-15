@@ -1,4 +1,4 @@
-package com.psa.OakdResearchInterface.ui.main.fragments
+package com.psa.oakdresearchinterface.ui.main.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,9 +9,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.psa.OakdResearchInterface.databinding.FragmentMainBinding
-import com.psa.OakdResearchInterface.ui.main.view_models.MasterViewModel
-import com.psa.OakdResearchInterface.ui.main.view_models.PageViewModel
+import com.psa.oakdresearchinterface.databinding.FragmentMainBinding
+import com.psa.oakdresearchinterface.ui.main.view_models.MasterViewModel
+import com.psa.oakdresearchinterface.ui.main.view_models.PageViewModel
 
 /**
  * A placeholder fragment containing a simple view.

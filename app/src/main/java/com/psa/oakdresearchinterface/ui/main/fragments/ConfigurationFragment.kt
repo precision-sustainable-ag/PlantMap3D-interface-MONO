@@ -1,4 +1,4 @@
-package com.psa.OakdResearchInterface.ui.main.fragments
+package com.psa.oakdresearchinterface.ui.main.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -10,11 +10,10 @@ import android.widget.*
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.psa.OakdResearchInterface.R
-import com.psa.OakdResearchInterface.data.UI_CLEAN_TAG
-import com.psa.OakdResearchInterface.data.UI_TAG
-import com.psa.OakdResearchInterface.databinding.FragmentConfigurationBinding
-import com.psa.OakdResearchInterface.ui.main.view_models.MasterViewModel
+import com.psa.oakdresearchinterface.R
+import com.psa.oakdresearchinterface.databinding.FragmentConfigurationBinding
+import com.psa.oakdresearchinterface.data.UI_TAG
+import com.psa.oakdresearchinterface.ui.main.view_models.MasterViewModel
 
 
 class ConfigurationFragment : Fragment() {
@@ -53,6 +52,12 @@ class ConfigurationFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        mainViewModel.farmCodeUpdateList.add { Log.d(UI_TAG, "Farm Code value updated to: ${mainViewModel.farmCode.value.toString()}") }
+        mainViewModel.plotNumberUpdateList.add { Log.d(UI_TAG, "Plot Number value updated to: ${mainViewModel.plotNumber.value.toString()}") }
+        mainViewModel.seasonStageUpdateList.add { Log.d(UI_TAG, "Season Stage value updated to: ${mainViewModel.seasonStage.value.toString()}") }
+        mainViewModel.cashCropUpdateList.add { Log.d(UI_TAG, "Cash Crop value updated to: ${mainViewModel.cashCrop.value.toString()}") }
+        mainViewModel.coverCropUpdateList.add { Log.d(UI_TAG, "Cover Crop value updated to: ${mainViewModel.coverCrop.value.toString()}") }
+        mainViewModel.weatherCondUpdateList.add { Log.d(UI_TAG, "Weather Conditions value updated to: ${mainViewModel.weatherCond.value.toString()}") }
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -111,23 +116,6 @@ class ConfigurationFragment : Fragment() {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 mainViewModel.setWeatherCond(weatherCond.selectedItem.toString())
             }
-        }
-
-        // Setup Update Lists
-        if(!updateListInited){
-            mainViewModel.farmCodeUpdateList.add { Log.d(UI_TAG, "Farm Code value updated to: ${mainViewModel.farmCode.value.toString()}") }
-
-            mainViewModel.plotNumberUpdateList.add { Log.d(UI_TAG, "Plot Number value updated to: ${mainViewModel.plotNumber.value.toString()}") }
-
-            mainViewModel.seasonStageUpdateList.add { Log.d(UI_TAG, "Season Stage value updated to: ${mainViewModel.seasonStage.value.toString()}") }
-
-            mainViewModel.cashCropUpdateList.add { Log.d(UI_TAG, "Cash Crop value updated to: ${mainViewModel.cashCrop.value.toString()}") }
-
-            mainViewModel.coverCropUpdateList.add { Log.d(UI_TAG, "Cover Crop value updated to: ${mainViewModel.coverCrop.value.toString()}") }
-
-            mainViewModel.weatherCondUpdateList.add { Log.d(UI_TAG, "Weather Conditions value updated to: ${mainViewModel.weatherCond.value.toString()}") }
-
-            updateListInited = true
         }
 
 

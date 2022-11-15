@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="700dp"
+    tools:context=".ui.main.fragments.ReviewFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/startButton"
+            android:layout_width="@dimen/data_collection_control_button_width"
+            android:layout_height="@dimen/data_collection_control_button_height"
+            android:layout_marginBottom="@dimen/data_collection_vertical_button_spacing"
+            android:layout_marginStart="@dimen/data_collection_horizontal_button_spacing"
+            android:layout_weight="1"
+            android:longClickable="false"
+            android:padding="0dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/start_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/stopButton"
+            android:layout_width="@dimen/data_collection_control_button_width"
+            android:layout_height="@dimen/data_collection_control_button_height"
+            android:layout_marginBottom="@dimen/data_collection_vertical_button_spacing"
+            android:layout_marginStart="@dimen/data_collection_horizontal_button_spacing"
+            android:layout_weight="1"
+            android:longClickable="false"
+            android:padding="0dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/stop_button_clicked"
+            app:layout_constraintBottom_toTopOf="@+id/startButton"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <ImageButton
+            android:id="@+id/unpauseButton"
+            android:layout_width="@dimen/data_collection_control_button_large_width"
+            android:layout_height="@dimen/data_collection_control_button_height"
+            android:layout_marginStart="@dimen/data_collection_horizontal_button_spacing"
+            android:layout_marginBottom="@dimen/data_collection_vertical_button_spacing"
+            android:layout_weight="1"
+            android:longClickable="false"
+            android:padding="0dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/unpause_button"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/startButton"
+            tools:ignore="ContentDescription" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

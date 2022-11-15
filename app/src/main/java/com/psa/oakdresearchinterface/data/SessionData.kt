@@ -1,4 +1,4 @@
-package com.psa.OakdResearchInterface.data
+package com.psa.oakdresearchinterface.data
 
 import android.content.Context
 import android.util.Log

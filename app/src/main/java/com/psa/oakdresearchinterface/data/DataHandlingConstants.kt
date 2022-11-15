@@ -1,4 +1,4 @@
-package com.psa.OakdResearchInterface.data
+package com.psa.oakdresearchinterface.data
 
 
 
@@ -16,7 +16,7 @@ const val UI_CLEAN_TAG: String = UI_TAG + "_CLEAN"
 
 
 // Connection Info
-const val TEST_IP: String = "192.168.0.103" // Manually enter the local IP here to connect to the test server
+const val TEST_IP: String = "192.168.227.80" // Manually enter the local IP here to connect to the test server
 const val TEST_PORT: Int = 4242 // The port used to access the test server
 
 const val PI_IP: String = "127.0.0.1" // Placeholder/Dummy IP for the raspberry pi, replace with real IP
@@ -29,9 +29,17 @@ const val SERVER_PORT: Int = TEST_PORT // The port that will be connected to by 
 // Communication Key
 const val CLOSE_MSG: String = "connection_closing"
 const val HANDSHAKE_MSG: String = "connection_confirmation"
+const val START_COLLECT_MSG: String = "start_collection"
+const val STOP_COLLECT_MSG: String = "stop_collection"
+const val PAUSE_COLLECT_MSG: String = "pause_collection"
+
+
 
 
 // State Key
 const val BUTTON_PRESSED: String = "PRESSED"
 const val BUTTON_NOT_PRESSED: String = "NOT_PRESSED"
+const val COLLECT_NOT_STARTED: String = "NOT STARTED"
+const val COLLECT_RUNNING: String = "RUNNING"
+const val COLLECT_PAUSED: String = "PAUSED"
 
