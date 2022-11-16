@@ -5,6 +5,8 @@ import android.media.Image
 
 interface CameraController {
     fun startCollection()
-    fun stopCollection()
     fun pauseCollection()
+    fun unpauseCollection()
+    fun stopCollection()
+
 }

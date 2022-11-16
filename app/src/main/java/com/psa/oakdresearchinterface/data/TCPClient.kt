@@ -1,21 +1,23 @@
 package com.psa.oakdresearchinterface.data
 
+import android.graphics.Bitmap
+import android.media.Image
 import android.util.Log
 import java.io.*
 import java.net.InetAddress
 import java.net.Socket
+import java.nio.CharBuffer
 
 
 /**
  * Constructor of the class. OnMessagedReceived listens for the messages received from server
  */
-class TCPClient (listener: OnMessageReceived){
+class TCPClient (private val handleNewImage: (Bitmap)->Unit){
 
     // Queue of messages to send to the server
     private val serverMsgQueue: MutableList<String> = mutableListOf()
 
     // sends message received notifications
-    private var mMessageListener: OnMessageReceived? = null
 
     // while this is true, the client thread will continue running
     private var mRun = false
@@ -25,12 +27,6 @@ class TCPClient (listener: OnMessageReceived){
     // used to read messages from the server
     private var mBufferIn: BufferedReader? = null
     private var socket: Socket? = null
-
-
-
-    init {
-        mMessageListener = listener
-    }
 
 
 
@@ -58,12 +54,13 @@ class TCPClient (listener: OnMessageReceived){
 
     private fun awaitServerMsg(): String {
         Log.d(TCP_TAG,  "Client - Awaiting message...")
-        var message = socket!!.getInputStream().readBytes()
+       // var message = socket!!.getInputStream().readBytes()
         //Log.d(TCP_TAG, "Client - Received: $message")
+        var cBufferArray = CharArray(0)
         val serverMessage = mBufferIn!!.readLine()
         Log.d(TCP_TAG, "Client - Received: " + serverMessage!!)
 
-        mMessageListener!!.messageReceived(serverMessage)
+        handleMessage(serverMessage)
 
         return serverMessage!!
     }
@@ -82,7 +79,6 @@ class TCPClient (listener: OnMessageReceived){
         if(socket != null)
             socket!!.close()
 
-        mMessageListener = null
         mBufferIn = null
         mBufferOut = null
     }
@@ -128,9 +124,8 @@ class TCPClient (listener: OnMessageReceived){
         }
     }
 
-    //Declare the interface. The method messageReceived(String message) will must be implemented in the MainActivity
-    //class at on async Task doInBackground
-    interface OnMessageReceived {
-        fun messageReceived(message: String?)
+
+    fun handleMessage(message: String){
+
     }
 }

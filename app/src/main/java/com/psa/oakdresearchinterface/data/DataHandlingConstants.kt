@@ -16,7 +16,7 @@ const val UI_CLEAN_TAG: String = UI_TAG + "_CLEAN"
 
 
 // Connection Info
-const val TEST_IP: String = "192.168.227.80" // Manually enter the local IP here to connect to the test server
+const val TEST_IP: String = "169.254.161.54" // Manually enter the local IP here to connect to the test server
 const val TEST_PORT: Int = 4242 // The port used to access the test server
 
 const val PI_IP: String = "127.0.0.1" // Placeholder/Dummy IP for the raspberry pi, replace with real IP
@@ -30,8 +30,10 @@ const val SERVER_PORT: Int = TEST_PORT // The port that will be connected to by 
 const val CLOSE_MSG: String = "connection_closing"
 const val HANDSHAKE_MSG: String = "connection_confirmation"
 const val START_COLLECT_MSG: String = "start_collection"
-const val STOP_COLLECT_MSG: String = "stop_collection"
 const val PAUSE_COLLECT_MSG: String = "pause_collection"
+const val UNPAUSE_COLLECT_MSG: String = "unpause_collection"
+const val STOP_COLLECT_MSG: String = "stop_collection"
+
 
 
 

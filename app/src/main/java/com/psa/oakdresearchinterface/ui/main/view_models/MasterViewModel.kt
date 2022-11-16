@@ -75,10 +75,14 @@ class MasterViewModel : ViewModel() { // holds data that can be shared between t
     private val mutableSessionRunState = MutableLiveData<String>() // value safe to be set asynchronously (private to prevent data retrieval from it)
     val sessionRunState: LiveData<String> get() = mutableSessionRunState // variable that is updated once safe to be, the variable that data is retrieved from
     fun setSessionRunState(newValue: String){ // public setter for the private mutable variable
+        mutableLastSessionRunState.value = mutableSessionRunState.value
         mutableSessionRunState.value = newValue
         executeExpressions(sessionRunStateUpdateList)
     }
-    
+    private val mutableLastSessionRunState = MutableLiveData<String>() // value safe to be set asynchronously (private to prevent data retrieval from it)
+    val lastSessionRunState: LiveData<String> get() = mutableLastSessionRunState // variable that is updated once safe to be, the variable that data is retrieved from
+
+
     // Data Review Triggers
     private val mutableSelectAllButtonState = MutableLiveData<String>() // value safe to be set asynchronously (private to prevent data retrieval from it)
     val selectAllButtonState: LiveData<String> get() = mutableSelectAllButtonState // variable that is updated once safe to be, the variable that data is retrieved from

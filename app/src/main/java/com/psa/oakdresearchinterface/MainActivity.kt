@@ -7,7 +7,9 @@ import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.psa.oakdresearchinterface.data.*
 import com.psa.oakdresearchinterface.databinding.ActivityMainBinding
 import com.psa.oakdresearchinterface.ui.main.SectionsPagerAdapter
@@ -30,11 +32,13 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val sectionsPagerAdapter = SectionsPagerAdapter(this, supportFragmentManager)
-        val viewPager: ViewPager = binding.viewPager
+        val sectionsPagerAdapter = SectionsPagerAdapter(this, this)
+        val viewPager: ViewPager2 = binding.viewPager
         viewPager.adapter = sectionsPagerAdapter
         val tabs: TabLayout = binding.tabs
-        tabs.setupWithViewPager(viewPager)
+        TabLayoutMediator(tabs, viewPager) { tab, position ->
+            tab.text = sectionsPagerAdapter.getTabTitle(position)
+        }.attach()
 
         _collectionStatusTextView = binding.collectionStatusView
         mainViewModel.sessionRunStateUpdateList.add{
@@ -47,32 +51,6 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
-
-    class ConnectTask (private val setTcpClientFunc: (TCPClient)->Unit) : AsyncTask<String?, String?, TCPClient?>(){
-        override fun doInBackground(vararg params: String?): TCPClient? {
-
-            //we create a TCPClient object and
-            var tcpClient = TCPClient(object : TCPClient.OnMessageReceived {
-                //here the messageReceived method is implemented
-                override fun messageReceived(message: String?) {
-                    //this method calls the onProgressUpdate
-                    publishProgress(message)
-                }
-            })
-            setTcpClientFunc(tcpClient) // sets the tcp client inside of the main scope, via the passed in setter function
-            tcpClient.run()
-            return null
-        }
-
-        override fun onProgressUpdate(vararg values: String?) { // handles the messages being received
-            super.onProgressUpdate(*values)
-
-            Log.d(TCP_TAG, "Client - Message Handler Received: ${values[1]}")
-
-            // insert code to handle updates here
-        }
-    }
 
 
 }

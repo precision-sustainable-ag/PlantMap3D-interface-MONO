@@ -1,6 +1,7 @@
 package com.psa.oakdresearchinterface.ui.main.fragments
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
 import android.media.Image
 import android.os.Build
 import android.os.Bundle
@@ -53,6 +54,7 @@ class ReviewFragment : Fragment() {
     private val dataFileLayout get() = _dataFileLayout!!
 
     private lateinit var sessionDataManager: SessionDataManager
+    private var currentSessionsData: SessionData? = null
 
     private var dataFileUIItems = mutableListOf<View>()
     private var dataFileButtons = mutableListOf<ImageButton>()
@@ -94,10 +96,24 @@ class ReviewFragment : Fragment() {
         cameraController = OakDController(handleNewImage)
 
         mainViewModel.sessionRunStateUpdateList.add{
-            when (mainViewModel.sessionRunState.value){
-                COLLECT_RUNNING -> cameraController.startCollection()
-                COLLECT_PAUSED -> cameraController.pauseCollection()
-                COLLECT_NOT_STARTED -> cameraController.stopCollection()
+            // Only create new session data if starting fresh
+            if (mainViewModel.sessionRunState.value == COLLECT_RUNNING && mainViewModel.lastSessionRunState.value == COLLECT_NOT_STARTED){
+                cameraController.startCollection()
+                currentSessionsData = SessionData(
+                    requireContext(),
+                    "${mainViewModel.farmCode.value}_${mainViewModel.plotNumber.value}_${mainViewModel.seasonStage.value}"
+                )
+                sessionDataManager.addData(currentSessionsData!!, updateUI = false)
+            }
+            else if(mainViewModel.sessionRunState.value == COLLECT_RUNNING){
+                cameraController.unpauseCollection()
+            }
+            else if(mainViewModel.sessionRunState.value == COLLECT_PAUSED){
+                cameraController.pauseCollection()
+            }
+            else {
+                cameraController.stopCollection()
+                currentSessionsData = null
             }
         }
     }
@@ -301,7 +317,7 @@ class ReviewFragment : Fragment() {
         Toast.makeText(context, "Data upload started for: ${data.sessionSubDir}", Toast.LENGTH_SHORT).show()
     }
 
-    private val handleNewImage: (Image)->Unit = { newImg: Image ->
+    private val handleNewImage: (Bitmap)->Unit = { newImg: Bitmap ->
         // TODO: Have a universal way to handle a new piece of image data input into the system
     }
 }
