@@ -5,6 +5,7 @@ package com.psa.oakdresearchinterface.data
 // Data Storage
 const val DATA_DIRECTORY: String = "Estimation-Session-Data"
 const val DATA_FILE_EXTENSION: String = ".bin"
+const val DATABASE_NAME: String = DATA_DIRECTORY
 
 
 // Logcat Tags
@@ -33,9 +34,6 @@ const val START_COLLECT_MSG: String = "start_collection"
 const val PAUSE_COLLECT_MSG: String = "pause_collection"
 const val UNPAUSE_COLLECT_MSG: String = "unpause_collection"
 const val STOP_COLLECT_MSG: String = "stop_collection"
-
-
-
 
 
 // State Key

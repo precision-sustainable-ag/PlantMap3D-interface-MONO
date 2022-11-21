@@ -1,4 +1,4 @@
-package com.psa.oakdresearchinterface.data
+package com.psa.oakdresearchinterface.data.collection
 
 import android.media.Image
 

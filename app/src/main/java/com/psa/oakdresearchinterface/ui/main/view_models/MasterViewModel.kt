@@ -40,10 +40,12 @@ class MasterViewModel : ViewModel() { // holds data that can be shared between t
         mutableFarmCode.value = newValue
         executeExpressions(farmCodeUpdateList)
     }
-    private val mutablePlotNumber = MutableLiveData<String>() // value safe to be set asynchronously (private to prevent data retrieval from it)
-    val plotNumber: LiveData<String> get() = mutablePlotNumber // variable that is updated once safe to be, the variable that data is retrieved from
+    private val mutablePlotNumber = MutableLiveData<Int>() // value safe to be set asynchronously (private to prevent data retrieval from it)
+    val plotNumber: LiveData<Int> get() = mutablePlotNumber // variable that is updated once safe to be, the variable that data is retrieved from
     fun setPlotNumber(newValue: String){ // public setter for the private mutable variable
-        mutablePlotNumber.value = newValue
+        mutablePlotNumber.value = newValue.toIntOrNull()
+        if(mutablePlotNumber.value == null)
+            mutablePlotNumber.value = -1
         executeExpressions(plotNumberUpdateList)
     }
     private val mutableSeasonStage = MutableLiveData<String>() // value safe to be set asynchronously (private to prevent data retrieval from it)

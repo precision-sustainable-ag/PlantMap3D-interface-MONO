@@ -1,16 +1,12 @@
 package com.psa.oakdresearchinterface
 
-import android.os.AsyncTask
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import com.psa.oakdresearchinterface.data.*
 import com.psa.oakdresearchinterface.databinding.ActivityMainBinding
 import com.psa.oakdresearchinterface.ui.main.SectionsPagerAdapter
 import com.psa.oakdresearchinterface.ui.main.view_models.MasterViewModel
@@ -44,11 +40,6 @@ class MainActivity : AppCompatActivity() {
         mainViewModel.sessionRunStateUpdateList.add{
             collectionStatusTextView.text = mainViewModel.sessionRunState.value
         }
-
-        // Setup TCP Connection
-       // ConnectTask{ tcpClient = it }.execute("") // pass in an expression that sets the tcp client TODO( Move to OakDController )
-
-
     }
 
 

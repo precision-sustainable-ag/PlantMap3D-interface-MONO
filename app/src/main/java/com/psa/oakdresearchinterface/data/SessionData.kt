@@ -2,37 +2,38 @@ package com.psa.oakdresearchinterface.data
 
 import android.content.Context
 import android.util.Log
+import com.psa.oakdresearchinterface.data.storage.SessionMetadata
 import java.io.File
 import java.io.IOException
 
 
-class SessionData (context: Context, sessionID: String, attemptDataLoad: Boolean = false) {
-    private var _sessionSubDir: String? = null
-    val sessionSubDir get() = _sessionSubDir!!
+class SessionData (context: Context, targetSessionID: String, sessionMetadata: SessionMetadata, val isExistingData: Boolean = false) {
+    private var _sessionID: String? = null
+    val sessionID get() = _sessionID!!
     private var _dataSelected: Boolean = false
     val isSelected get() = _dataSelected
+    private var _metadata: SessionMetadata
+    val metadata get() = _metadata
 
     private lateinit var sessionDataFile: File
     private var fileInitialized: Boolean = false
 
 
     init {
-        if(attemptDataLoad) {
-            loadDataFromID(context, sessionID)
+        _metadata = sessionMetadata
+        if(!isExistingData) {
+            createDataDir(context, targetSessionID)
         }
-        else {
-            createDataDir(context, sessionID)
+        else{
+            _sessionID = targetSessionID
         }
+        metadata.sessionID = sessionID
     }
 
 
-    private fun loadDataFromID(context: Context, sessionID: String) {
-        _sessionSubDir = sessionID
-        return// TODO: Fill in with data parsing and initialization once the data is known
-    }
 
     private fun createDataDir(context: Context, sessionID: String){
-        var dataRoot = File(context.filesDir, DATA_DIRECTORY) // the location all session data is stored in
+        val dataRoot = File(context.filesDir, DATA_DIRECTORY) // the location all session data is stored in
         if(!dataRoot.exists()){
             dataRoot.mkdirs()
         }
@@ -45,25 +46,25 @@ class SessionData (context: Context, sessionID: String, attemptDataLoad: Boolean
 
         var duplicateInc = 0
         do {
-            _sessionSubDir = sessionID
+            _sessionID = sessionID
             if (duplicateInc > 0){
-                _sessionSubDir += "(${duplicateInc})"
+                _sessionID += "(${duplicateInc})"
             }
-            Log.d(DATA_TAG, "Attempted save directory: $sessionSubDir")
-            subDirRoot = File( dataRoot, sessionSubDir)
+            Log.d(DATA_TAG, "Attempted save directory: ${this.sessionID}")
+            subDirRoot = File( dataRoot, this.sessionID)
 
             duplicateInc++ // increment the number of existing directories that share this session ID
         } while (subDirRoot.exists())
         subDirRoot.mkdirs() // once reached a directory name that doesn't already exist, make it
 
         Log.d(DATA_TAG,"${duplicateInc-1} existing directories share the session ID: $sessionID")
-        Log.i(DATA_TAG, "Session directory created with name: $sessionSubDir")
+        Log.i(DATA_TAG, "Session directory created with name: ${this.sessionID}")
 
-        sessionDataFile = File(subDirRoot, "$sessionSubDir$DATA_FILE_EXTENSION")
+        sessionDataFile = File(subDirRoot, "${this.sessionID}$DATA_FILE_EXTENSION")
         try {
             if(sessionDataFile.createNewFile()){
                 fileInitialized = true
-                Log.i(DATA_TAG, "Session data file created ($sessionSubDir$DATA_FILE_EXTENSION) in session directory")
+                Log.i(DATA_TAG, "Session data file created (${this.sessionID}$DATA_FILE_EXTENSION) in session directory")
             }
             else{
                 throw IOException("File ${sessionDataFile.absoluteFile} Already Exists at Directory ${sessionDataFile.absolutePath}")
@@ -79,17 +80,17 @@ class SessionData (context: Context, sessionID: String, attemptDataLoad: Boolean
     fun setSelected(dataSelected: Boolean){
         this._dataSelected = dataSelected
         if(dataSelected)
-            Log.d(UI_TAG, "Data directory selected: $sessionSubDir")
+            Log.d(UI_TAG, "Data directory selected: $sessionID")
         else
-            Log.d(UI_TAG, "Data directory deselected: $sessionSubDir")
+            Log.d(UI_TAG, "Data directory deselected: $sessionID")
     }
 
     fun formatForUpload(): MutableList<Unit>{
         return mutableListOf()// TODO: Load that data into memory, then return it (formatted for our Azure cloud)
     }
     fun deleteSelf(){
-        Log.d(UI_TAG, "Attempting to delete data directory: $sessionSubDir")
-        Log.d(DATA_TAG, "Attempting to delete data directory: $sessionSubDir")
+        Log.d(UI_TAG, "Attempting to delete data directory: $sessionID")
+        Log.d(DATA_TAG, "Attempting to delete data directory: $sessionID")
         return // TODO: Make data delete itself
     }
 }

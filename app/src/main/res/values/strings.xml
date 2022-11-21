@@ -25,6 +25,11 @@
 
     <!-- Toast Notifications -->
     <string name="data_upload_completion_notif">Data upload completed for: </string>
+    <string name="data_delete_confirm">Confirm data delete</string>
+    <string name="cancel_option">Cancel</string>
+    <string name="delete_option">Delete</string>
+
+
 
     <!-- Defaults -->
     <string name="enter_here_prompt"></string>

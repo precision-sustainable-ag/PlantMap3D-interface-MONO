@@ -2,7 +2,6 @@ package com.psa.oakdresearchinterface.ui.main.fragments
 
 import android.annotation.SuppressLint
 import android.graphics.Bitmap
-import android.media.Image
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -19,7 +18,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.psa.oakdresearchinterface.R
 import com.psa.oakdresearchinterface.data.*
+import com.psa.oakdresearchinterface.data.collection.CameraController
+import com.psa.oakdresearchinterface.data.collection.OakDController
+import com.psa.oakdresearchinterface.data.storage.SessionMetadata
 import com.psa.oakdresearchinterface.databinding.FragmentReviewBinding
+import com.psa.oakdresearchinterface.ui.main.dialogs.ConfirmationDialog
 import com.psa.oakdresearchinterface.ui.main.view_models.MasterViewModel
 
 
@@ -69,12 +72,12 @@ class ReviewFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         // Init session data manager
-        sessionDataManager = SessionDataManager(updateSessionDataDisplay, uploadSessionData)
+        sessionDataManager = SessionDataManager(requireContext(), updateSessionDataDisplay)
 
         // Setup test data
         val testDataList = mutableListOf<SessionData>()
         for(i in 0 until (maxDataFilesPerRow*10)+2){
-            testDataList.add(SessionData(requireContext(), "TEST_SESSION($i)", attemptDataLoad = true))
+            testDataList.add(SessionData(requireContext(), "TEST_SESSION($i)", SessionMetadata(), isExistingData = true))
         }
         sessionDataManager.addData(testDataList, updateUI = false) // don't update the UI yet, as the UI objects haven't been properly init-ed
 
@@ -88,8 +91,13 @@ class ReviewFragment : Fragment() {
                 sessionDataManager.uploadSelectedData()
         }
         mainViewModel.deleteButtonStateUpdateList.add{
-            if(mainViewModel.deleteButtonState.value == BUTTON_PRESSED)
-                sessionDataManager.deleteSelectedData()
+            if(mainViewModel.deleteButtonState.value == BUTTON_PRESSED){
+                val dialog = ConfirmationDialog(requireContext(), R.string.cancel_option, R.string.delete_option) {
+                    sessionDataManager.deleteSelectedData()
+                }
+                dialog.setCancelable(true)
+                dialog.show()
+            }
         }
 
         // Setup Camera Controller
@@ -101,7 +109,14 @@ class ReviewFragment : Fragment() {
                 cameraController.startCollection()
                 currentSessionsData = SessionData(
                     requireContext(),
-                    "${mainViewModel.farmCode.value}_${mainViewModel.plotNumber.value}_${mainViewModel.seasonStage.value}"
+                    "${mainViewModel.farmCode.value}_plot${mainViewModel.plotNumber.value}",
+                    SessionMetadata(
+                        farmCode = mainViewModel.farmCode.value!!,
+                        plotNumber = mainViewModel.plotNumber.value!!,
+                        cashCrop = mainViewModel.cashCrop.value!!,
+                        coverCrop = mainViewModel.coverCrop.value!!,
+                        weatherCond = mainViewModel.weatherCond.value!!
+                    )
                 )
                 sessionDataManager.addData(currentSessionsData!!, updateUI = false)
             }
@@ -116,6 +131,7 @@ class ReviewFragment : Fragment() {
                 currentSessionsData = null
             }
         }
+
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -284,7 +300,7 @@ class ReviewFragment : Fragment() {
                         button.setImageResource(R.drawable.file_unselected)
                     }
                 }
-                textView.text = itemsData.sessionSubDir // set the label to the session sub directory (the session ID + duplicate number)
+                textView.text = itemsData.sessionID // set the label to the session sub directory (the session ID + duplicate number)
 
                 dataFileUIItems.add(itemLinearLayout)
                 dataFileButtons.add(button)
@@ -306,15 +322,6 @@ class ReviewFragment : Fragment() {
         Log.d(UI_TAG, "Data Table Children (after update): $s")
 
         Log.d(UI_CLEAN_TAG, "Updated Data Display with: ${dataRows.size} rows, ${dataList.size} total items")
-    }
-
-    private val uploadSessionData: (SessionData)->Unit = { data: SessionData ->
-        val uploadReadyData: MutableList<Unit> = data.formatForUpload()
-        // TODO: Upload data to our Azure cloud
-
-        Log.d(UI_CLEAN_TAG, "Data upload started for data directory: ${data.sessionSubDir}")
-        Log.d(DATA_TAG, "Data upload started for data directory: ${data.sessionSubDir}")
-        Toast.makeText(context, "Data upload started for: ${data.sessionSubDir}", Toast.LENGTH_SHORT).show()
     }
 
     private val handleNewImage: (Bitmap)->Unit = { newImg: Bitmap ->

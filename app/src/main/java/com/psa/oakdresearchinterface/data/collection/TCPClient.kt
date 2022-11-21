@@ -1,12 +1,11 @@
-package com.psa.oakdresearchinterface.data
+package com.psa.oakdresearchinterface.data.collection
 
 import android.graphics.Bitmap
-import android.media.Image
 import android.util.Log
+import com.psa.oakdresearchinterface.data.*
 import java.io.*
 import java.net.InetAddress
 import java.net.Socket
-import java.nio.CharBuffer
 
 
 /**
@@ -56,13 +55,12 @@ class TCPClient (private val handleNewImage: (Bitmap)->Unit){
         Log.d(TCP_TAG,  "Client - Awaiting message...")
        // var message = socket!!.getInputStream().readBytes()
         //Log.d(TCP_TAG, "Client - Received: $message")
-        var cBufferArray = CharArray(0)
         val serverMessage = mBufferIn!!.readLine()
         Log.d(TCP_TAG, "Client - Received: " + serverMessage!!)
 
         handleMessage(serverMessage)
 
-        return serverMessage!!
+        return serverMessage
     }
 
     /**
@@ -125,7 +123,7 @@ class TCPClient (private val handleNewImage: (Bitmap)->Unit){
     }
 
 
-    fun handleMessage(message: String){
+    private fun handleMessage(message: String){
 
     }
 }
