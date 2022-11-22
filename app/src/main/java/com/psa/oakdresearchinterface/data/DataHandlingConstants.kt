@@ -17,23 +17,33 @@ const val UI_CLEAN_TAG: String = UI_TAG + "_CLEAN"
 
 
 // Connection Info
-const val TEST_IP: String = "169.254.161.54" // Manually enter the local IP here to connect to the test server
+const val TEST_IP: String = "10.152.20.126" // Manually enter the local IP here to connect to the test server
 const val TEST_PORT: Int = 4242 // The port used to access the test server
 
 const val PI_IP: String = "127.0.0.1" // Placeholder/Dummy IP for the raspberry pi, replace with real IP
-const val PI_PORT: Int = 9002 // Placeholder/Dummy port for the raspberry pi, replace with real port
+const val PI_PORT: Int = 4242 // Placeholder/Dummy port for the raspberry pi, replace with real port
 
 const val SERVER_IP: String = TEST_IP // The IP that will be connected to by this app
 const val SERVER_PORT: Int = TEST_PORT // The port that will be connected to by this app
 
 
-// Communication Key
-const val CLOSE_MSG: String = "connection_closing"
+// Outgoing Communication Key
 const val HANDSHAKE_MSG: String = "connection_confirmation"
 const val START_COLLECT_MSG: String = "start_collection"
 const val PAUSE_COLLECT_MSG: String = "pause_collection"
 const val UNPAUSE_COLLECT_MSG: String = "unpause_collection"
 const val STOP_COLLECT_MSG: String = "stop_collection"
+const val IMG_REQUEST_MSG: String = "requesting_img"
+
+// Inbound Communication Key
+const val STRING_INDICATOR_BYTE: Byte = 'S'.code.toByte()
+const val IMG_INDICATOR_BYTE: Byte = 'I'.code.toByte()
+const val HANDSHAKE_CONFIRMATION: String = "handshake_complete"
+const val START_CONFIRMATION: String = "collection_started"
+const val PAUSE_CONFIRMATION: String = "collection_paused"
+const val UNPAUSE_CONFIRMATION: String = "collection_unpaused"
+const val STOP_CONFIRMATION: String = "collection_stopped"
+
 
 
 // State Key

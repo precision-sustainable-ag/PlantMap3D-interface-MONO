@@ -32,9 +32,9 @@
 
 
     <!-- Defaults -->
-    <string name="enter_here_prompt"></string>
+    <string name="enter_here_prompt">Enter Here</string>
     <string name="default_plot_code">1</string>
-    <string name="default_season_timing">Example Timing</string>
+    <string name="default_season_timing">1st</string>
     <string name="default_session_ID">XX-Cover-Timing-Plot</string>
 
 </resources>

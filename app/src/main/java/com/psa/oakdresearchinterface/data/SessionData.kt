@@ -39,7 +39,7 @@ class SessionData (context: Context, targetSessionID: String, sessionMetadata: S
         }
         var subDirRoot: File // the sub directory this session's data will be stored in
 
-        Log.i(DATA_TAG, "Attempting to create directory for session: $sessionID")
+        Log.d(DATA_TAG, "Attempting to create directory for session: $sessionID")
 
         // Log.d(DATA_TAG, "Internal Storage Dir: ${context.filesDir}")
         // Log.d(DATA_TAG, "Data Directory: $DATA_DIRECTORY")

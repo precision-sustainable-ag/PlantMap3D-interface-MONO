@@ -75,11 +75,13 @@ class ReviewFragment : Fragment() {
         sessionDataManager = SessionDataManager(requireContext(), updateSessionDataDisplay)
 
         // Setup test data
-        val testDataList = mutableListOf<SessionData>()
+        /*val testDataList = mutableListOf<SessionData>()
         for(i in 0 until (maxDataFilesPerRow*10)+2){
             testDataList.add(SessionData(requireContext(), "TEST_SESSION($i)", SessionMetadata(), isExistingData = true))
         }
         sessionDataManager.addData(testDataList, updateUI = false) // don't update the UI yet, as the UI objects haven't been properly init-ed
+        */
+
 
         // Add to update lists in onCreate to avoid adding to the list every time the tab UI is created/destroyed
         mainViewModel.selectAllButtonStateUpdateList.add{
@@ -104,8 +106,10 @@ class ReviewFragment : Fragment() {
         cameraController = OakDController(handleNewImage)
 
         mainViewModel.sessionRunStateUpdateList.add{
-            // Only create new session data if starting fresh
-            if (mainViewModel.sessionRunState.value == COLLECT_RUNNING && mainViewModel.lastSessionRunState.value == COLLECT_NOT_STARTED){
+            if (mainViewModel.sessionRunState.value == COLLECT_RUNNING && mainViewModel.lastSessionRunState.value == COLLECT_PAUSED){
+                cameraController.unpauseCollection()
+            }
+            else if(mainViewModel.sessionRunState.value == COLLECT_RUNNING){ // Only create new session data if starting fresh
                 cameraController.startCollection()
                 currentSessionsData = SessionData(
                     requireContext(),
@@ -113,15 +117,14 @@ class ReviewFragment : Fragment() {
                     SessionMetadata(
                         farmCode = mainViewModel.farmCode.value!!,
                         plotNumber = mainViewModel.plotNumber.value!!,
+                        seasonTiming = mainViewModel.seasonStage.value!!,
                         cashCrop = mainViewModel.cashCrop.value!!,
                         coverCrop = mainViewModel.coverCrop.value!!,
                         weatherCond = mainViewModel.weatherCond.value!!
-                    )
+                    ),
+                    isExistingData = false
                 )
-                sessionDataManager.addData(currentSessionsData!!, updateUI = false)
-            }
-            else if(mainViewModel.sessionRunState.value == COLLECT_RUNNING){
-                cameraController.unpauseCollection()
+                sessionDataManager.addData(currentSessionsData!!)
             }
             else if(mainViewModel.sessionRunState.value == COLLECT_PAUSED){
                 cameraController.pauseCollection()
@@ -259,10 +262,10 @@ class ReviewFragment : Fragment() {
     private val updateSessionDataDisplay: (List<SessionData>) -> Unit = { dataList: List<SessionData>->
         dataFileLayout.removeAllViewsInLayout() // clear out the old stuff to create an entirely new list
 
-        var s = ""
-        for (child in dataFileLayout.children)
-            s += "$child; "
-        Log.d(UI_TAG, "Data Table Children (before update): $s")
+        //var s = ""
+        //for (child in dataFileLayout.children)
+        //    s += "$child; "
+        //Log.d(UI_TAG, "Data Table Children (before update): $s")
         Log.d(UI_TAG, "Session Data List Size: ${dataList.size}")
 
         val dataRows = mutableListOf<MutableList<SessionData>>()
@@ -304,7 +307,7 @@ class ReviewFragment : Fragment() {
 
                 dataFileUIItems.add(itemLinearLayout)
                 dataFileButtons.add(button)
-                Log.d(UI_TAG, "Row item $i: ${rowLinearLayout[i]}")
+                //Log.d(UI_TAG, "Row item $i: ${rowLinearLayout[i]}")
             }
 
             Log.d(UI_TAG, "Added dataRow (of size ${dataRow.size}) to data table")
@@ -316,10 +319,10 @@ class ReviewFragment : Fragment() {
         else // else, do not have it exist
             binding.scrollLinearLayout.visibility = View.GONE
 
-        s = ""
-        for (child in dataFileLayout.children)
-            s += "$child; "
-        Log.d(UI_TAG, "Data Table Children (after update): $s")
+        //s = ""
+        //for (child in dataFileLayout.children)
+        //    s += "$child; "
+        //Log.d(UI_TAG, "Data Table Children (after update): $s")
 
         Log.d(UI_CLEAN_TAG, "Updated Data Display with: ${dataRows.size} rows, ${dataList.size} total items")
     }

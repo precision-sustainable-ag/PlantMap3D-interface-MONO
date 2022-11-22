@@ -2,6 +2,9 @@ package com.psa.oakdresearchinterface.ui.main.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,10 +13,16 @@ import android.widget.*
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.room.Room
 import com.psa.oakdresearchinterface.R
+import com.psa.oakdresearchinterface.data.DATABASE_NAME
+import com.psa.oakdresearchinterface.data.DATA_TAG
 import com.psa.oakdresearchinterface.databinding.FragmentConfigurationBinding
 import com.psa.oakdresearchinterface.data.UI_TAG
+import com.psa.oakdresearchinterface.data.storage.SessionDatabase
 import com.psa.oakdresearchinterface.ui.main.view_models.MasterViewModel
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 
 class ConfigurationFragment : Fragment() {
@@ -119,6 +128,30 @@ class ConfigurationFragment : Fragment() {
         }
 
 
+        // Load up the database temporarily to init the config field values to the most recently used values
+        val executor: ExecutorService = Executors.newSingleThreadExecutor()
+        val handler = Handler(Looper.getMainLooper())
+        executor.execute {
+            val database = Room.databaseBuilder(requireContext(), SessionDatabase::class.java, DATABASE_NAME).build()
+            val metadataList = database.sessionDao().getAll()
+            Log.d(DATA_TAG, "Metadata entries found: ${metadataList.size}")
+            if(metadataList.isNotEmpty()){
+                handler.post{
+                    val recentMetadata = metadataList.last()
+                    mainViewModel.setFarmCode(recentMetadata.farmCode)
+                    farmCode.setText(recentMetadata.farmCode)
+                    mainViewModel.setPlotNumber(recentMetadata.plotNumber.toString())
+                    plotNumber.setText(recentMetadata.plotNumber.toString())
+                    mainViewModel.setSeasonStage(recentMetadata.seasonTiming)
+                    seasonStage.setText(recentMetadata.seasonTiming)
+                    mainViewModel.setCashCrop(recentMetadata.cashCrop)
+                    mainViewModel.setCoverCrop(recentMetadata.coverCrop)
+                    mainViewModel.setWeatherCond(recentMetadata.weatherCond)
+                }
+            }
+        }
+
+
         return root
     }
 
@@ -135,5 +168,16 @@ class ConfigurationFragment : Fragment() {
             spinner.adapter = adapter
         }
     }
-
+    /*private fun getSpinnerPosOfItem(string: String, itemsXMLResource: Int): Int{
+        val adapter = ArrayAdapter.createFromResource( // pass in the context, items, and layout
+            this.requireContext(),
+            itemsXMLResource,
+            android.R.layout.simple_spinner_item
+        )
+        for(i in 0 until adapter.count){
+            if(string == adapter.getItem(i)!!)
+                return i
+        }
+        return 0
+    }*/
 }

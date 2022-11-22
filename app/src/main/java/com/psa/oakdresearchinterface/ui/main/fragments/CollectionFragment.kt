@@ -2,6 +2,8 @@ package com.psa.oakdresearchinterface.ui.main.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,10 +11,14 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.room.Room
 import com.psa.oakdresearchinterface.R
 import com.psa.oakdresearchinterface.data.*
+import com.psa.oakdresearchinterface.data.storage.SessionDatabase
 import com.psa.oakdresearchinterface.databinding.FragmentCollectionBinding
 import com.psa.oakdresearchinterface.ui.main.view_models.MasterViewModel
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 
 class CollectionFragment : Fragment() {
@@ -71,10 +77,25 @@ class CollectionFragment : Fragment() {
         _startButton = binding.startButton
         startButton.setOnClickListener {
             Log.d(UI_TAG, "Start/pause button: Pressed")
-            if(mainViewModel.sessionRunState.value == COLLECT_NOT_STARTED || mainViewModel.sessionRunState.value == null) // if not running, the start button should start the session
-                mainViewModel.setSessionRunState(COLLECT_RUNNING)
-            else if(mainViewModel.sessionRunState.value == COLLECT_RUNNING) // if running, the start button should act as the pause button
-                mainViewModel.setSessionRunState(COLLECT_PAUSED)
+            if(mainViewModel.farmCode.value != null && mainViewModel.plotNumber.value != null && mainViewModel.seasonStage.value != null){
+                if(mainViewModel.sessionRunState.value == COLLECT_NOT_STARTED || mainViewModel.sessionRunState.value == null) // if not running, the start button should start the session
+                    mainViewModel.setSessionRunState(COLLECT_RUNNING)
+                else if(mainViewModel.sessionRunState.value == COLLECT_RUNNING) // if running, the start button should act as the pause button
+                    mainViewModel.setSessionRunState(COLLECT_PAUSED)
+            }
+            else{
+                val fieldsToConfigList = mutableListOf<String>()
+                if(mainViewModel.farmCode.value == null) fieldsToConfigList.add("Farm Code")
+                if(mainViewModel.plotNumber.value == null) fieldsToConfigList.add("Plot number")
+                if(mainViewModel.seasonStage.value == null) fieldsToConfigList.add("Season Timing")
+                var fieldsToConfig = ""
+                for(i in 0 until fieldsToConfigList.size){
+                    fieldsToConfig += fieldsToConfigList[i]
+                    if(i < fieldsToConfigList.size - 1)
+                        fieldsToConfig += ", "
+                }
+                Toast.makeText(requireContext(), "Can't start. Fields not configured: $fieldsToConfig", Toast.LENGTH_LONG).show()
+            }
         }
 
         _stopButton = binding.stopButton

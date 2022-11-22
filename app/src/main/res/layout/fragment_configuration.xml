@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="700dp"
-    tools:context=".ui.main.ConfigurationFragment">
+    tools:context=".ui.main.fragments.ConfigurationFragment">
 
     <TableLayout
         android:layout_width="match_parent"
@@ -74,7 +74,7 @@
                     android:backgroundTint="@color/black"
                     android:ems="10"
                     android:inputType="number"
-                    android:text="@string/default_plot_code"
+                    android:text="@string/enter_here_prompt"
                     android:textColor="@color/off_white" />
 
             </LinearLayout>
@@ -108,7 +108,7 @@
                     android:ems="5"
                     android:inputType="textCapCharacters"
                     android:paddingHorizontal="@dimen/text_input_padding"
-                    android:text="@string/default_season_timing"
+                    android:text="@string/enter_here_prompt"
                     android:textColor="@color/off_white" />
 
             </LinearLayout>

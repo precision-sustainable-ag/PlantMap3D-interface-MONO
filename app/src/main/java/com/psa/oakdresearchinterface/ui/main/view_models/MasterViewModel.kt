@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModel
 
 
 class MasterViewModel : ViewModel() { // holds data that can be shared between the main activity and all fragments
-    // The client's message handler, routes/queues/stores all inbound and outbound messages as needed
-    //val messageHandler: TCPMessageHandler = TCPMessageHandler()
 
 
     // Lists of expressions to run under given circumstances
