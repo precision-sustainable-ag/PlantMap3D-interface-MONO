@@ -16,16 +16,11 @@ class OakDController(private val handleNewImage: (Bitmap)->Unit) : CameraControl
 
     init {
         val executor: ExecutorService = Executors.newSingleThreadExecutor()
-        val handler = Handler(Looper.getMainLooper())
 
         executor.execute {
             //Background work here
             tcpClient = TCPClient(handleNewImage)
             tcpClient.run()
-
-            handler.post { // UI work here
-
-            }
         }
     }
 
@@ -35,6 +30,8 @@ class OakDController(private val handleNewImage: (Bitmap)->Unit) : CameraControl
 
 
     override fun pauseCollection() {
+        tcpClient.interruptMessageWait()
+        tcpClient.clearInboundBuff()
         tcpClient.queueMessage(PAUSE_COLLECT_MSG)
     }
 
@@ -43,6 +40,8 @@ class OakDController(private val handleNewImage: (Bitmap)->Unit) : CameraControl
     }
 
     override fun stopCollection() {
+        tcpClient.interruptMessageWait()
+        tcpClient.clearInboundBuff()
         tcpClient.queueMessage(STOP_COLLECT_MSG)
     }
 }

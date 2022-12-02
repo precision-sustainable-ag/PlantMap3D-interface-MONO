@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
 import com.psa.oakdresearchinterface.data.*
+import io.ktor.util.date.*
 import java.io.*
 import java.net.InetAddress
 import java.net.Socket
@@ -35,10 +36,11 @@ class TCPClient (private val handleNewImage: (Bitmap)->Unit){
      *
      * @param message text to send from the client tablet
      */
-    private fun sendMessage(message: String?) {
+    private fun sendMessage(message: String?, debugOutput: Boolean = true) {
         try {
             if (mBufferOut != null && !mBufferOut!!.checkError()) {
-                Log.d(TCP_TAG, "Client - Sending message: '$message'")
+                if(debugOutput)
+                    Log.d(TCP_TAG, "Client - Sending message: '$message'")
                 mBufferOut!!.println(message)
                 //Log.d(TCP_TAG, "Client - About to Flush: '$message'")
                 mBufferOut!!.flush()
@@ -52,17 +54,42 @@ class TCPClient (private val handleNewImage: (Bitmap)->Unit){
     }
 
 
-    private fun awaitServerMsg(): ByteArray {
-        Log.i(TCP_TAG,  "Client - Awaiting server message...")
+    private var msgAwaitCanBlockThread = true
+    private fun awaitServerMsg(debugOutput: Boolean = true): ByteArray {
+        if(debugOutput)
+            Log.d(TCP_TAG,  "Client - Awaiting server message...")
 
+        msgAwaitCanBlockThread = true
         var availableBytes = streamIn!!.buffered().available()
-        while(availableBytes <= 0)
+        while(availableBytes <= 0 && msgAwaitCanBlockThread)
             availableBytes = streamIn!!.buffered().available()
-        val serverData = ByteArray(availableBytes)
-        streamIn!!.read(serverData, 0, serverData.size)
+
+        var serverData = ByteArray(0)
+        do{
+            val newData = ByteArray(availableBytes)
+            streamIn!!.read(newData, 0, newData.size)
+            serverData += newData
+            ioSafeSleep(STREAM_READ_COMPLETE_CHECK_DELAY)
+            availableBytes = streamIn!!.buffered().available()
+        } while(availableBytes > 0 && msgAwaitCanBlockThread)
 
         handleMessage(serverData)
         return serverData
+    }
+    fun clearInboundBuff(debugOutput: Boolean = true){
+        var clearedBytes = 0
+        var availableBytes = streamIn!!.buffered().available()
+        while(availableBytes > 0 && msgAwaitCanBlockThread){
+            val dataToVoid = ByteArray(availableBytes)
+            streamIn!!.read(dataToVoid, 0, dataToVoid.size)
+            clearedBytes += dataToVoid.size
+            availableBytes = streamIn!!.buffered().available()
+        }
+        if(debugOutput)
+            Log.d(TCP_TAG, "Client - Cleared $clearedBytes byte(s) from the input buffer")
+    }
+    fun interruptMessageWait(){
+        msgAwaitCanBlockThread = false
     }
 
     /**
@@ -91,7 +118,7 @@ class TCPClient (private val handleNewImage: (Bitmap)->Unit){
 
             //create a socket to make the connection with the server
             socket = Socket(serverAddr, SERVER_PORT)
-            Log.i(TCP_TAG, "Client - Connected to server.")
+
             try {
                 //sends the message to the server
                 mBufferOut =
@@ -104,6 +131,8 @@ class TCPClient (private val handleNewImage: (Bitmap)->Unit){
                 sendMessage(HANDSHAKE_MSG)
 
                 awaitServerMsg() // get the connection confirmation (for testing/debugging purposes primarily)
+                Log.i(TCP_TAG, "Client - Connected to server.")
+
 
                 while(mRun){
                     if(serverMsgQueue.size > 0){ // If messages in the queue, pop the next message, send it, and wait for a response
@@ -126,7 +155,6 @@ class TCPClient (private val handleNewImage: (Bitmap)->Unit){
         if(fullMsg.size >= 2){
             val indicator = fullMsg[0]
 
-
             if(indicator == STRING_INDICATOR_BYTE){
                 val data = ByteArray(fullMsg.size-1)
                 for(i in data.indices){
@@ -135,7 +163,7 @@ class TCPClient (private val handleNewImage: (Bitmap)->Unit){
                 Log.i(TCP_TAG, "Client - Received string message (len ${data.size}): ${String(data)}")
 
                 when(String(data)){
-                    START_CONFIRMATION, UNPAUSE_CONFIRMATION -> { queueMessage(IMG_REQUEST_MSG) } // request an image to start the image request back and forth
+                    START_CONFIRMATION, UNPAUSE_CONFIRMATION, IMG_TRANSFER_COMPLETE_MSG -> { queueMessage(IMG_REQUEST_MSG) } // request an image to start the image request back and forth
                     STOP_CONFIRMATION, PAUSE_CONFIRMATION -> { // when stopping, remove all image requests from the message queue
                         for(i in serverMsgQueue.size-1 downTo 0) // traverse backwards to prevent skipping items
                             if(serverMsgQueue[i] == IMG_REQUEST_MSG)
@@ -145,13 +173,41 @@ class TCPClient (private val handleNewImage: (Bitmap)->Unit){
             }
             else if(indicator == IMG_INDICATOR_BYTE){
                 Log.i(TCP_TAG, "Client - Received image data of size: ${fullMsg.size-1} bytes")
-                val bitmap = BitmapFactory.decodeByteArray(fullMsg, 1, fullMsg.size-1) // make image into 2d img from byte map
+                val headerOffset = 1
+
+                var bitmap = BitmapFactory.decodeByteArray(fullMsg, headerOffset, fullMsg.size-headerOffset)// make image into 2d img from byte map
+                val imgBytes: Int = fullMsg.size-headerOffset
+                var attempts = 1
+                while((bitmap == null || imgBytes < MIN_IMGTYPE1_BYTES) && msgAwaitCanBlockThread){
+                    ioSafeSleep(READ_AFTER_SEND_DELAY)
+                    clearInboundBuff()
+                    if(msgAwaitCanBlockThread){
+                        sendMessage(IMG_SECTION_REQUEST_MSG, debugOutput = false) // request and receive data for the next section of the img
+                        val imgSectionBytesMsg = awaitServerMsg(debugOutput = false)
+                        attempts++
+                        Log.d(TCP_TAG, "Client - Receive attempt $attempts, got ${imgSectionBytesMsg.size-headerOffset} bytes")
+                        if(imgSectionBytesMsg.isEmpty() || imgSectionBytesMsg[0] != IMG_SECTION_INDICATOR_BYTE)
+                            continue
+                        Log.d(TCP_TAG, "Attempting to make bitmap")
+                        bitmap = BitmapFactory.decodeByteArray(imgSectionBytesMsg, headerOffset, imgSectionBytesMsg.size-headerOffset) // make image into 2d img from byte map, exclude the 1 byte header
+                    }
+                }
+                Log.d(TCP_TAG, "Client - Received a valid img in $attempts attempt(s)")
                 handleNewImage(bitmap) // handle img
-                queueMessage(IMG_REQUEST_MSG) // request another image from the server once this one is handled
+                sendMessage(IMG_VALID_MSG) // request another image from the server once this one is handled
+                awaitServerMsg() // receive the confirmation message
+                //queueMessage(IMG_REQUEST_MSG)
             }
         }
         else{
             Log.i(TCP_TAG, "Client - Received empty message")
         }
+    }
+
+
+    private fun ioSafeSleep(msec: Long){
+        val startTime = getTimeMillis()
+        val endTime = startTime + msec
+        while(getTimeMillis() < endTime) {}
     }
 }

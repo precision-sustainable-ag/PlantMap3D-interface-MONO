@@ -1,5 +1,6 @@
 package com.psa.oakdresearchinterface.ui.main.view_models
 
+import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,12 +20,13 @@ class MasterViewModel : ViewModel() { // holds data that can be shared between t
     val selectAllButtonStateUpdateList: MutableList<()->Unit> = mutableListOf()
     val uploadButtonStateUpdateList: MutableList<()->Unit> = mutableListOf()
     val deleteButtonStateUpdateList: MutableList<()->Unit> = mutableListOf()
+    //val handleNewImageUpdateList: MutableList<()->Unit> = mutableListOf()
    // val sessionDataUpdateList: MutableList<()->Unit> = mutableListOf()
 
 
 
     // Function to execute expressions from a passed in list
-    private fun executeExpressions(expressionList: MutableList<()->Unit>){
+    private fun executeExpressions(expressionList: MutableList<()->Unit>, arg: Unit?=null){
         for (expression in expressionList) { // iterate through each expression
             expression.invoke() // execute it
         }
@@ -103,10 +105,10 @@ class MasterViewModel : ViewModel() { // holds data that can be shared between t
         executeExpressions(deleteButtonStateUpdateList)
     }
 
-    /*private val mutableSessionDataList = MutableLiveData<MutableList<SessionData>>() // value safe to be set asynchronously (private to prevent data retrieval from it)
-    val sessionDataList: LiveData<MutableList<SessionData>> get() = mutableSessionDataList // variable that is updated once safe to be, the variable that data is retrieved from
-    val updateSessionDataDisplay: (MutableList<SessionData>)->Unit = {
-        mutableSessionDataList.value=it
-        executeExpressions(sessionDataUpdateList)
-    }*/
+    //private val mutableRecentImageInput = MutableLiveData<Bitmap>() // value safe to be set asynchronously (private to prevent data retrieval from it)
+    //val recentImageInput: LiveData<Bitmap> get() = mutableRecentImageInput // variable that is updated once safe to be, the variable that data is retrieved from
+    var setImageDisplayFunc: ((Bitmap)->Unit)? = null
+    fun handleNewImage (newImg: Bitmap) {
+        setImageDisplayFunc!!(newImg)
+    }
 }

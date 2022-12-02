@@ -328,6 +328,6 @@ class ReviewFragment : Fragment() {
     }
 
     private val handleNewImage: (Bitmap)->Unit = { newImg: Bitmap ->
-        // TODO: Have a universal way to handle a new piece of image data input into the system
+        mainViewModel.handleNewImage(newImg)
     }
 }

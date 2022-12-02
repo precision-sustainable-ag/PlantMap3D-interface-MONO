@@ -1,6 +1,7 @@
 package com.psa.oakdresearchinterface.ui.main.fragments
 
 import android.annotation.SuppressLint
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -37,7 +38,10 @@ class CollectionFragment : Fragment() {
     private val stopButton get() = _stopButton!!
     private var _unpauseButton: ImageButton? = null
     private val unpauseButton get() = _unpauseButton!!
+    private var _imgPreview: ImageView? = null
+    private val imgPreview get() = _imgPreview!!
 
+    private val handler = Handler(Looper.getMainLooper())
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,6 +70,21 @@ class CollectionFragment : Fragment() {
         mainViewModel.sessionRunStateUpdateList.add { // print the session state
             Log.d(UI_CLEAN_TAG, "Session is now: ${mainViewModel.sessionRunState.value}")
         }
+
+
+      //  var queuedImg: Bitmap? = null
+        mainViewModel.setImageDisplayFunc = { // update the image with the most recently input image
+            handler.post{
+                imgPreview.setImageBitmap(it)
+            }
+        }
+
+        /*while(acti){
+            if(queuedImg != null){
+                imgPreview.setImageBitmap(queuedImg)
+                queuedImg = null
+            }
+        }*/
     }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -111,6 +130,8 @@ class CollectionFragment : Fragment() {
             if(mainViewModel.sessionRunState.value == COLLECT_PAUSED) // if paused, unpause
                 mainViewModel.setSessionRunState(COLLECT_RUNNING)
         }
+
+        _imgPreview = binding.imgPreviewView
 
         return root
     }
